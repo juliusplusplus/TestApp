@@ -5,4 +5,6 @@
     <string name="tab_menu_upload">上传</string>
     <string name="tab_menu_display">展示</string>
     <string name="tab_menu_my">我的</string>
+
+    <string name="text_begin">请开始说话…</string>
 </resources>

@@ -5,13 +5,25 @@
     android:background="@color/bg_white"
     android:orientation="vertical">
 
-    <TextView
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:id="@+id/txt_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:text="this is for fragment"-->
+<!--        android:textColor="@color/bg_gray"-->
+<!--        android:textSize="20sp"/>-->
+    <com.qmuiteam.qmui.widget.tab.QMUITabSegment
+        android:id="@+id/tabSegment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/txt_content"
-        android:layout_gravity="center"
-        android:text="this is for fragment"
-        android:textColor="@color/bg_gray"
-        android:textSize="20sp"/>
+        android:layout_height="40dp"
+        android:background="@color/bg_white"/>
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/contentViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/bg_white"
+        />
 </LinearLayout>

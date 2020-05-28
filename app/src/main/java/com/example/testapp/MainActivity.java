@@ -1,25 +1,23 @@
 package com.example.testapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
+import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import android.app.Activity ;
 import android.os.Bundle ;
-import android.os.Message;
 import android.util.Log ;
 import android.view.View ;
 import android.view.Window;
 import android.widget.Button ;
 import android.widget.EditText ;
-import android.widget.TextView;
 import android.widget.Toast ;
 
+import com.example.db.DatabaseHelper;
 import com.iflytek.cloud.ErrorCode ;
 import com.iflytek.cloud.InitListener ;
 import com.iflytek.cloud.RecognizerListener ;
@@ -45,19 +43,14 @@ import java.util.LinkedHashMap ;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
-    QMUITabSegment mTabSegment;
+//    QMUITabSegment mTabSegment = new QMUITabSegment(context());
 
     private static final String TAG = MainActivity.class .getSimpleName();
     private EditText et_input;
-    private TextView txt_test;
-//    private MyFragment fg1;
-    private FragmentManager fragmentManager;
     private Button btn_startspeech, btn_startspeektext ;
-    private SharedPreferences mSharedPreferences;
-    private String resultType = "json";
-    private StringBuffer buffer = new StringBuffer();
-
-    private boolean cyclic = false;//音频流识别是否循环调用
+    private Context mContext;
+    private DatabaseHelper dbHelper;
+    private int i = 1;
 
     // 用HashMap存储听写结果
     private HashMap<String, String> mIatResults = new LinkedHashMap<String , String>();
@@ -66,32 +59,54 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super .onCreate(savedInstanceState) ;
-//        fragmentManager = getSupportFram
+        mContext = MainActivity.this;
+        dbHelper = new DatabaseHelper(mContext,"",null,1);
         initView() ;
         initSpeech() ;
-//        mTabSegment.performClick();
     }
 
     private void initView() {
         setContentView(R.layout.activity_main) ;
-        txt_test = (TextView)findViewById(R.id.tv_buttom4);
-        txt_test.setOnClickListener(this);
         et_input = (EditText) findViewById(R.id.et_input );
         btn_startspeech = (Button) findViewById(R.id.btn_startspeech );
         btn_startspeektext = (Button) findViewById(R.id.btn_startspeektext );
         btn_startspeech .setOnClickListener(this) ;
         btn_startspeektext .setOnClickListener(this) ;
+
+        Button add_data = (Button) findViewById(R.id.add_data);
+        add_data.setOnClickListener(this);
+        Button select_data = (Button) findViewById(R.id.select_data);
+        select_data.setOnClickListener(this);
+
+
     }
 
-//    private void hideAllFragment(FragmentTransaction fragmentTransaction){
-//        if(fg1 != null )fragmentTransaction.hide(fg1);
-//    }
     private void initSpeech() {
         // 将“12345678”替换成您申请的 APPID，申请地址： http://www.xfyun.cn
         // 请勿在 “ =”与 appid 之间添加任务空字符或者转义符
         SpeechUtility. createUtility( this, SpeechConstant. APPID + "=5e92eb93" );
     }
 
+    private void addData(){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //第一条
+        values.put("name","赵明");
+        values.put("class","202001");
+        values.put("project","引体向上");
+        values.put("score","");
+        db.insert("student",null,values);
+        values.clear();
+
+        //第二条
+        values.put("name","张三");
+        values.put("class","202001");
+        values.put("project","引体向上");
+        values.put("score","");
+        db.insert("student",null,values);
+        Toast.makeText(mContext, "addData succeeded", Toast.LENGTH_SHORT).show();
+        Log.d(TAG,"adddd data");
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -99,11 +114,24 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 startSpeechDialog();
                 break;
             case R.id. btn_startspeektext:// 语音合成（把文字转声音）
+                dbHelper.getWritableDatabase();
                 //speekText();
                 //qmuiTest();
-//                qmuiTabSegment();
-//                mTabSegment.addTab(new QMUITabSegment().selectTab(1));
+//                qmuiTabSegment();;/
                 break;
+            case R.id.add_data:
+                addData();
+//                SQLiteDatabase db = dbHelper.getWritableDatabase();
+//                ContentValues values1 = new ContentValues();
+//                values1.put("name", "呵呵~" + i);
+//                i++;
+//                //参数依次是：表名，强行插入null值得数据列的列名，一行记录的数据
+//                db.insert("student", null, values1);
+//                Toast.makeText(mContext, "插入完毕~", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.select_data:
+                getCount();
+
         }
 
     }
@@ -113,6 +141,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //                .setupWithViewPager();
 //
 //    }
+public long getCount()
+{
+    SQLiteDatabase db = dbHelper.getReadableDatabase();
+    Cursor cursor =  db.rawQuery("SELECT COUNT (*) FROM student",null);
+    cursor.moveToFirst();
+    long result = cursor.getLong(0);
+    cursor.close();
+    Log.d(TAG,"select data " + result);
+    return result;
+}
     private void qmuiTest(){
         new QMUIDialog.MessageDialogBuilder(this)
                 .setTitle("QMUI对话框标题")
@@ -203,10 +241,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private void startSpeechDialog() {
         //1. 创建RecognizerDialog对象
-        // 初始化识别无UI识别对象
-
-        SpeechRecognizer mDialog = SpeechRecognizer.createRecognizer(this, new MyInitListener());
-//        RecognizerDialog mDialog = new RecognizerDialog(this, new MyInitListener()) ;
+        RecognizerDialog mDialog = new RecognizerDialog(this, new MyInitListener()) ;
         //2. 设置accent、 language等参数
         mDialog.setParameter(SpeechConstant. LANGUAGE, "zh_cn" );// 设置中文
         mDialog.setParameter(SpeechConstant. ACCENT, "mandarin" );
@@ -215,17 +250,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // mDialog.setParameter("asr_sch", "1");
         // mDialog.setParameter("nlp_version", "2.0");
         //3.设置回调接口
-//        mDialog.setListener( new MyRecognizerDialogListener()) ;
-//        showTip("请开始说话");
+        mDialog.setListener( new MyRecognizerDialogListener()) ;
         //4. 显示dialog，接收语音输入
-//        mDialog.show() ;
-        int ret = 0;
-        ret = mDialog.startListening(mRecognizerListener);
-        if (ret != ErrorCode.SUCCESS) {
-            showTip("听写失败,错误码：" + ret+",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
-        } else {
-            showTip(getString(R.string.text_begin));
-        }
+        mDialog.show() ;
     }
 
     class MyRecognizerDialogListener implements RecognizerDialogListener {
@@ -237,11 +264,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
         @Override
         public void onResult(RecognizerResult results, boolean isLast) {
             String result = results.getResultString(); //为解析的
-            showTip(result) ;
+//            showTip(result) ;
             System. out.println(" 没有解析的 :" + result);
+//            Log.d (TAG, "没有解析的 " + results.getResultString());
 
             String text = JsonParser.parseIatResult(result) ;//解析过后的
             System. out.println(" 解析后的 :" + text);
+//            Log.d (TAG, "解析后的 " + text);
 
             String sn = null;
             // 读取json结果中的 sn字段
@@ -279,94 +308,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         }
     }
-    private static int flg=0;
-    /**
-     * 听写监听器。
-     */
-    private RecognizerListener mRecognizerListener = new RecognizerListener() {
 
-        @Override
-        public void onBeginOfSpeech() {
-            // 此回调表示：sdk内部录音机已经准备好了，用户可以开始语音输入
-            showTip("开始说话");
-        }
-
-        @Override
-        public void onError(SpeechError error) {
-            // Tips：
-            // 错误码：10118(您没有说话)，可能是录音机权限被禁，需要提示用户打开应用的录音权限。
-
-            showTip(error.getPlainDescription(true));
-
-        }
-
-        @Override
-        public void onEndOfSpeech() {
-            // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
-            showTip("结束说话");
-        }
-
-        @Override
-        public void onResult(RecognizerResult results, boolean isLast) {
-            Log.d(TAG, results.getResultString());
-            System.out.println(flg++);
-            if (resultType.equals("json")) {
-
-                printResult(results);
-
-            }else if(resultType.equals("plain")) {
-                buffer.append(results.getResultString());
-                et_input.setText(buffer.toString());
-                et_input.setSelection(et_input.length());
-            }
-
-            if (isLast & cyclic) {
-                // TODO 最后的结果
-                Message message = Message.obtain();
-                message.what = 0x001;
-//                han.sendMessageDelayed(message,100);
-            }
-        }
-
-        @Override
-        public void onVolumeChanged(int volume, byte[] data) {
-            showTip("当前正在说话，音量大小：" + volume);
-            Log.d(TAG, "返回音频数据："+data.length);
-        }
-
-        @Override
-        public void onEvent(int eventType, int arg1, int arg2, Bundle obj) {
-            // 以下代码用于获取与云端的会话id，当业务出错时将会话id提供给技术支持人员，可用于查询会话日志，定位出错原因
-            // 若使用本地能力，会话id为null
-            //	if (SpeechEvent.EVENT_SESSION_ID == eventType) {
-            //		String sid = obj.getString(SpeechEvent.KEY_EVENT_SESSION_ID);
-            //		Log.d(TAG, "session id =" + sid);
-            //	}
-        }
-    };
-
-    private void printResult(RecognizerResult results) {
-        String text = JsonParser.parseIatResult(results.getResultString());
-
-        String sn = null;
-        // 读取json结果中的sn字段
-        try {
-            JSONObject resultJson = new JSONObject(results.getResultString());
-            sn = resultJson.optString("sn");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        mIatResults.put(sn, text);
-
-        StringBuffer resultBuffer = new StringBuffer();
-        for (String key : mIatResults.keySet()) {
-            resultBuffer.append(mIatResults.get(key));
-        }
-
-        et_input.setText(resultBuffer.toString());
-        et_input.setSelection(et_input.length());
-    }
     /**
      * 语音识别
      */

@@ -143,6 +143,17 @@
         android:text="语音合成（把文字转声音） "
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_data"
+        android:text="上传数据"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/select_data"
+        android:text="查询数据"/>
 </LinearLayout>
 
 

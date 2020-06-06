@@ -8,11 +8,15 @@ import android.os.Bundle;
 
 import android.app.Activity ;
 import android.util.Log ;
+import android.view.LayoutInflater;
 import android.view.View ;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button ;
 import android.widget.EditText ;
 import android.widget.Toast ;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.db.DatabaseHelper;
 import com.example.testapp.R;
@@ -47,38 +51,47 @@ import java.util.Set;
 
 
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class Fragmnet_exam extends Fragment implements View.OnClickListener {
 
 //    QMUITabSegment mTabSegment = new QMUITabSegment(context());
-    private static final String TAG = MainActivity.class .getSimpleName();
+    private static final String TAG =Fragmnet_exam.class.getSimpleName();
     private EditText et_input;
     private Button btn_startspeech, btn_startspeektext ;
     private Context mContext;
     private String SpeechText;
     private DatabaseHelper dbHelper;
+    private View v;
     private int i = 1;
     private int ret = 0;
     private Set a = new HashSet();
     //1. 创建SpeechRecognizer对象，第二个参数： 本地识别时传 InitListener
-    SpeechRecognizer mIat = SpeechRecognizer.createRecognizer( this, null); //语音识别器
+    SpeechRecognizer mIat = SpeechRecognizer.createRecognizer( getActivity(), null); //语音识别器
 
     // 用HashMap存储听写结果
     private HashMap<String, String> mIatResults = new LinkedHashMap<String , String>();
     private HashMap<String, String> b = new HashMap<>();
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        ReadFileUtil.verifyStoragePermissions(MainActivity.this);
+    public void onCreate(Bundle savedInstanceState) {
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ReadFileUtil.verifyStoragePermissions(getActivity().this);
         super .onCreate(savedInstanceState) ;
-        mContext = MainActivity.this;
+        mContext = getActivity();
         dbHelper = new DatabaseHelper(mContext,"",null,2);
         initView() ;
         initSpeech() ;
         a.add("1");
         a.add("2");
     }
-
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        context = getContext();
+        path = context.getFilesDir().getPath();
+        v = inflater.inflate(R.layout.fragment_my, container, false);
+        initView(v);
+        initEvent();
+    }
     private void initView() {
+        v = inflater.inflate(R.layout.fragment_my, container, false);
         setContentView(R.layout.activity_main) ;
         et_input = (EditText) findViewById(R.id.et_input );
         btn_startspeech = (Button) findViewById(R.id.btn_startspeech );

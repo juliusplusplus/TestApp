@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TestApp</string>
+    <string name="app_name">智能体质测试</string>
 
     <string name="tab_menu_exam">测试</string>
     <string name="tab_menu_upload">上传</string>

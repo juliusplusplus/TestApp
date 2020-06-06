@@ -1,39 +1,39 @@
-//package com.example.asr;
+package com.example.asr;
+
+import android.app.Activity;
+import android.os.Build;
+import android.os.Bundle;
+import android.widget.Toolbar;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.testapp.R;
+
+import java.util.ArrayList;
+
+import de.codecrafters.tableview.SortableTableView;
+import de.codecrafters.tableview.TableView;
+
+public class Display extends AppCompatActivity {
+
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.display);
+//        TableView tableView = (TableView) findViewById(R.id.tableView);
+//        tableView.setColumnCount(4);
+//        SortableTableView sortableTableView = null;
+//        sortableTableView.setColumnComparator(0, new CarProducerComparator());
+//    }
 //
-//import android.app.Activity;
-//import android.os.Build;
-//import android.os.Bundle;
-//import android.widget.Toolbar;
-//
-//import androidx.annotation.RequiresApi;
-//import androidx.appcompat.app.AppCompatActivity;
-//
-//import com.example.testapp.R;
-//
-//import java.util.ArrayList;
-//
-//import de.codecrafters.tableview.SortableTableView;
-//import de.codecrafters.tableview.TableView;
-//
-//public class Display extends AppCompatActivity {
-//
-////    @Override
-////    protected void onCreate(Bundle savedInstanceState) {
-////        super.onCreate(savedInstanceState);
-////        setContentView(R.layout.display);
-////        TableView tableView = (TableView) findViewById(R.id.tableView);
-////        tableView.setColumnCount(4);
-////        SortableTableView sortableTableView = null;
-////        sortableTableView.setColumnComparator(0, new CarProducerComparator());
-////    }
-////
-////    private static class CarProducerComparator implements Comparator<Car> {
-////        @Override
-////        public int compare(Car car1, Car car2) {
-////            return car1.getProducer().getName().compareTo(car2.getProducer().getName());
-////        }
-////    }
-////放置数据的容器，每一个对象其实就是等于一行
+//    private static class CarProducerComparator implements Comparator<Car> {
+//        @Override
+//        public int compare(Car car1, Car car2) {
+//            return car1.getProducer().getName().compareTo(car2.getProducer().getName());
+//        }
+//    }
+//放置数据的容器，每一个对象其实就是等于一行
 //private static List<Car> CAR_LIST = new ArrayList<>();
 //
 //
@@ -106,7 +106,4 @@
 //        CAR_LIST.add(bmw3);
 //        CAR_LIST.add(bmw4);
 //    }
-//}
-//public lass MainActivity extends AppCompatActivity {
-//
-//}
+}

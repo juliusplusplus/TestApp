@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context="com.example.asr.MainActivity"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -29,69 +29,6 @@
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 
-<!--    <LinearLayout-->
-<!--        android:id="@+id/ly_tab_bar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="56dp"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:background="@color/bg_white"-->
-<!--        android:orientation="horizontal">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txt_exam"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="1"-->
-<!--            android:background="@drawable/tab_menu_bg"-->
-<!--            android:drawablePadding="3dp"-->
-<!--            android:drawableTop="@drawable/tab_menu_exam"-->
-<!--            android:gravity="center"-->
-<!--            android:padding="5dp"-->
-<!--            android:text="@string/tab_menu_exam"-->
-<!--            android:textColor="@drawable/tab_menu_exam"/>-->
-<!--&lt;!&ndash;            tools:ignore="Suspicious0dp" />&ndash;&gt;-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txt_upload"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="1"-->
-<!--            android:background="@drawable/tab_menu_bg"-->
-<!--            android:drawablePadding="3dp"-->
-<!--            android:drawableTop="@drawable/tab_menu_upload"-->
-<!--            android:gravity="center"-->
-<!--            android:padding="5dp"-->
-<!--            android:text="@string/tab_menu_upload"-->
-<!--            android:textColor="@drawable/tab_menu_upload"/>-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txt_display"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="1"-->
-<!--            android:background="@drawable/tab_menu_display"-->
-<!--            android:drawablePadding="3dp"-->
-<!--            android:drawableTop="@drawable/tab_menu_display"-->
-<!--            android:gravity="center"-->
-<!--            android:padding="5dp"-->
-<!--            android:text="@string/tab_menu_display"-->
-<!--            android:textColor="@drawable/tab_menu_display"-->
-<!--            tools:ignore="Suspicious0dp" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txt_my"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="1"-->
-<!--            android:background="@drawable/tab_menu_my"-->
-<!--            android:drawablePadding="3dp"-->
-<!--            android:drawableTop="@drawable/tab_menu_my"-->
-<!--            android:gravity="center"-->
-<!--            android:padding="5dp"-->
-<!--            android:text="@string/tab_menu_my"-->
-<!--            android:textColor="@drawable/tab_menu_my"-->
-<!--            tools:ignore="Suspicious0dp" />-->
-<!--    </LinearLayout>-->
     <LinearLayout
         android:id="@+id/ly_tab_bar"
         android:layout_width="match_parent"
@@ -100,7 +37,7 @@
         android:orientation="vertical">
 
     <include
-        layout="@layout/activity_bottom"
+        layout="@layout/test"
         android:layout_height="50dp"
         android:layout_width="match_parent"/>
     </LinearLayout>
@@ -119,42 +56,49 @@
 <!--        android:id="@+id/ly_content">-->
 
 <!--    </FrameLayout>-->
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_above="@id/ly_tab_bar"
-    android:orientation="vertical">
-    <EditText
-        android:id="@+id/et_input"
-        android:layout_margin="10dp"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:hint="请输入文本信息 ..." />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_input"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:hint="请输入文本信息 ..." />
 
 
-    <Button
-        android:id="@+id/btn_startspeech"
-        android:text="点击按钮语音输入 "
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_startspeech"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="点击按钮语音输入 " />
 
-    <Button
-        android:id="@+id/btn_startspeektext"
-        android:text="语音合成（把文字转声音） "
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/add_data"
-        android:text="上传数据"/>
+        <Button
+            android:id="@+id/btn_startspeektext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="语音合成（把文字转声音） " />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/select_data"
-        android:text="查询数据"/>
-</LinearLayout>
+        <Button
+            android:id="@+id/add_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="上传数据" />
+
+        <Button
+            android:id="@+id/select_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="查询数据" />
+
+        <Button
+            android:id="@+id/update_dic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="更新词表" />
+    </LinearLayout>
 
 
 </RelativeLayout>

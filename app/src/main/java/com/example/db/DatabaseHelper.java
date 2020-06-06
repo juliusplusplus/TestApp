@@ -52,6 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        db.execSQL("ALTER TABLE student ADD phone VARCHAR(12) NULL");
         db.execSQL("drop table if exists student");
         Log.d("sqlllllllllll","upgrade" );
+        Toast.makeText(mContext,"upgrade",Toast.LENGTH_SHORT).show();
         onCreate(db);
     }
 

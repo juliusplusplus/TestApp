@@ -21,9 +21,11 @@ import android.widget.Toast ;
 import androidx.fragment.app.Fragment;
 
 import com.example.db.DatabaseHelper;
+import com.example.entity.Exam;
+import com.example.entity.Record;
 import com.example.testapp.R;
-import com.example.util.ChinaStringUtil;
 import com.example.util.ReadFileUtil;
+import com.example.util.SaveObjectUtils;
 import com.iflytek.cloud.ErrorCode ;
 import com.iflytek.cloud.InitListener ;
 import com.iflytek.cloud.LexiconListener;
@@ -70,6 +72,9 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
     private int i = 1;
     private int ret = 0;
     private Set a = new HashSet();
+    private SaveObjectUtils utils;
+    private static final String key=Fragment_exam.class.getSimpleName();
+    private Exam exam;
     //1. 创建SpeechRecognizer对象，第二个参数： 本地识别时传 InitListener
     SpeechRecognizer mIat = SpeechRecognizer.createRecognizer( getActivity(), null); //语音识别器
 
@@ -84,6 +89,8 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         initSpeech() ;
         a.add("1");
         a.add("2");
+        utils=new SaveObjectUtils(getActivity(),key);
+        exam = new Exam("一千米跑");
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -132,13 +139,17 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
             Map.Entry entry = (Map.Entry) it.next();
             Object key = entry.getKey();
             String value = entry.getValue().toString();
-            decode(value);
+            Record record = decode(value);
+            exam.addRecords(record);
+            utils.setObject(exam.getName(), exam);
             System.out.println("key=" + key + " value=" + value);
+            Exam test = utils.getObject(exam.getName(), Exam.class);
+            System.out.print(test.getRecords());
         }
         showTip(mIatResults.toString());
     }
 
-    private void decode(String str){
+    private Record decode(String str){
         int index=0,i = 0;
         int len = str.length();
         while(i<len){
@@ -149,8 +160,9 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
             }
             i += 1;
         }
-
-        b.put(str.substring(0, index), str.substring(index));
+        if (i==len) return null;
+        return new Record(str.substring(0, index), str.substring(index));
+        //b.put(str.substring(0, index), str.substring(index));
     }
     private void strTomap(String str,Map<String,String> results){
 
@@ -223,16 +235,16 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
 //                .setupWithViewPager();
 //
 //    }
-public long getCount()
-{
-    SQLiteDatabase db = dbHelper.getReadableDatabase();
-    Cursor cursor =  db.rawQuery("SELECT COUNT (*) FROM student",null);
-    cursor.moveToFirst();
-    long result = cursor.getLong(0);
-    cursor.close();
-    Log.d(TAG,"select data " + result);
-    showTip(String.valueOf(result));
-    return result;
+    public long getCount()
+    {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor =  db.rawQuery("SELECT COUNT (*) FROM student",null);
+        cursor.moveToFirst();
+        long result = cursor.getLong(0);
+        cursor.close();
+        Log.d(TAG,"select data " + result);
+        showTip(String.valueOf(result));
+        return result;
 }
 //    private void qmuiTest(){
 //        new QMUIDialog.MessageDialogBuilder(this)

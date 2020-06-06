@@ -4,43 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.asr.MainActivity"
+    tools:context="com.example.asr.Fragment_exam"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/ly_top_bar"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/bg_topbar">
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/ly_top_bar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:background="@color/bg_topbar">-->
 
-        <TextView
-            android:id="@+id/content_topbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:textColor="@color/text_topbar"
-            android:text="信息"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="@color/div_white"
-            android:layout_alignParentBottom="true"/>
-    </RelativeLayout>
+<!--        <TextView-->
+<!--            android:id="@+id/content_topbar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:gravity="center"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textColor="@color/text_topbar"-->
+<!--            android:text="信息"/>-->
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="2px"-->
+<!--            android:background="@color/div_white"-->
+<!--            android:layout_alignParentBottom="true"/>-->
+<!--    </RelativeLayout>-->
 
-    <LinearLayout
-        android:id="@+id/ly_tab_bar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical">
-
-    <include
-        layout="@layout/test"
-        android:layout_height="50dp"
-        android:layout_width="match_parent"/>
-    </LinearLayout>
     <View
         android:id="@+id/div_tab_bar"
         android:layout_width="match_parent"

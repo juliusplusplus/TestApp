@@ -194,8 +194,8 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         switch (i) {
             case 0:
                 if (home == null) {
-//                    home = new Fragment_home();
-//                    transaction.add(R.id.id_content, home);//将微信聊天界面的Fragment添加到Activity中
+                    home = new Fragment_exam();
+                    transaction.add(R.id.id_content, home);//将微信聊天界面的Fragment添加到Activity中
                 }else {
                     transaction.show(home);
                 }

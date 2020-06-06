@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button ;
 import android.widget.EditText ;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast ;
 
 import androidx.fragment.app.Fragment;
@@ -49,16 +51,20 @@ import java.util.LinkedHashMap ;
 import java.util.Map;
 import java.util.Set;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class Fragmnet_exam extends Fragment implements View.OnClickListener {
+public class Fragment_exam extends Fragment implements View.OnClickListener {
 
 //    QMUITabSegment mTabSegment = new QMUITabSegment(context());
-    private static final String TAG =Fragmnet_exam.class.getSimpleName();
+    private static final String TAG =Fragment_exam.class.getSimpleName();
     private EditText et_input;
     private Button btn_startspeech, btn_startspeektext ;
     private Context mContext;
     private String SpeechText;
+    private CircleImageView imageView;
+    private RelativeLayout classes;
+    private static String path;
     private DatabaseHelper dbHelper;
     private View v;
     private int i = 1;
@@ -73,46 +79,46 @@ public class Fragmnet_exam extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        ReadFileUtil.verifyStoragePermissions(getActivity().this);
+        ReadFileUtil.verifyStoragePermissions(getActivity());
         super .onCreate(savedInstanceState) ;
-        mContext = getActivity();
-        dbHelper = new DatabaseHelper(mContext,"",null,2);
-        initView() ;
         initSpeech() ;
         a.add("1");
         a.add("2");
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        context = getContext();
-        path = context.getFilesDir().getPath();
-        v = inflater.inflate(R.layout.fragment_my, container, false);
+        mContext = getContext();
+        dbHelper = new DatabaseHelper(mContext,"",null,2);
+        path = mContext.getFilesDir().getPath();
+        v = inflater.inflate(R.layout.fragment_exam, container, false);
         initView(v);
-        initEvent();
+        return v;
     }
-    private void initView() {
-        v = inflater.inflate(R.layout.fragment_my, container, false);
-        setContentView(R.layout.activity_main) ;
-        et_input = (EditText) findViewById(R.id.et_input );
-        btn_startspeech = (Button) findViewById(R.id.btn_startspeech );
-        btn_startspeektext = (Button) findViewById(R.id.btn_startspeektext );
+    private void initView(View v) {
+//        imageView = (CircleImageView) v.findViewById(R.id.profile_image);
+//        tv_height = (TextView) v.findViewById(R.id.tv_height);
+//        tv_birthday = (TextView) v.findViewById(R.id.tv_birth);
+//        height = (RelativeLayout) v.findViewById(R.id.height);
+//        classes = (RelativeLayout) v.findViewById(R.id.classes);
+        et_input = (EditText) v.findViewById(R.id.et_input );
+        btn_startspeech = (Button) v.findViewById(R.id.btn_startspeech );
+        btn_startspeektext = (Button) v.findViewById(R.id.btn_startspeektext );
         btn_startspeech .setOnClickListener(this) ;
         btn_startspeektext .setOnClickListener(this) ;
 
-        Button add_data = (Button) findViewById(R.id.add_data);
+        Button add_data = (Button) v.findViewById(R.id.add_data);
         add_data.setOnClickListener(this);
-        Button select_data = (Button) findViewById(R.id.select_data);
+        Button select_data = (Button) v.findViewById(R.id.select_data);
         select_data.setOnClickListener(this);
-        Button update_dic = (Button) findViewById(R.id.update_dic);
+        Button update_dic = (Button) v.findViewById(R.id.update_dic);
         update_dic.setOnClickListener(this);
-
 
     }
 
     private void initSpeech() {
         // 将“12345678”替换成您申请的 APPID，申请地址： http://www.xfyun.cn
         // 请勿在 “ =”与 appid 之间添加任务空字符或者转义符
-        SpeechUtility. createUtility( this, SpeechConstant. APPID + "=5e92eb93" );
+        SpeechUtility. createUtility( getActivity(), SpeechConstant. APPID + "=5e92eb93" );
     }
 
     private void updateData(){
@@ -145,7 +151,6 @@ public class Fragmnet_exam extends Fragment implements View.OnClickListener {
         }
 
         b.put(str.substring(0, index), str.substring(index));
-        // b.put(ChinaStringUtil.subChString(str,0, index), ChinaStringUtil.subChString(str,index+1, len-index+1));
     }
     private void strTomap(String str,Map<String,String> results){
 
@@ -229,31 +234,31 @@ public long getCount()
     showTip(String.valueOf(result));
     return result;
 }
-    private void qmuiTest(){
-        new QMUIDialog.MessageDialogBuilder(this)
-                .setTitle("QMUI对话框标题")
-                .setMessage("这是QMUI框架对话框的内容")
-                .addAction("取消", new QMUIDialogAction.ActionListener() {
-                    @Override
-                    public void onClick(QMUIDialog dialog, int index) {
-                        dialog.dismiss();
-                        Toast.makeText(MainActivity.this, "点击了取消按钮", Toast.LENGTH_SHORT).show();
-
-                    }
-                })
-                .addAction("确定", new QMUIDialogAction.ActionListener() {
-                    @Override
-                    public void onClick(QMUIDialog dialog, int index) {
-                        dialog.dismiss();
-                        Toast.makeText(MainActivity.this, "点击了确定按钮", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .show();
-    }
+//    private void qmuiTest(){
+//        new QMUIDialog.MessageDialogBuilder(this)
+//                .setTitle("QMUI对话框标题")
+//                .setMessage("这是QMUI框架对话框的内容")
+//                .addAction("取消", new QMUIDialogAction.ActionListener() {
+//                    @Override
+//                    public void onClick(QMUIDialog dialog, int index) {
+//                        dialog.dismiss();
+//                        Toast.makeText(MainActivity.this, "点击了取消按钮", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                })
+//                .addAction("确定", new QMUIDialogAction.ActionListener() {
+//                    @Override
+//                    public void onClick(QMUIDialog dialog, int index) {
+//                        dialog.dismiss();
+//                        Toast.makeText(MainActivity.this, "点击了确定按钮", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .show();
+//    }
 
     private void speekText() {
         //1. 创建 SpeechSynthesizer 对象 , 第二个参数： 本地合成时传 InitListener
-        SpeechSynthesizer mTts = SpeechSynthesizer.createSynthesizer( this, null);
+        SpeechSynthesizer mTts = SpeechSynthesizer.createSynthesizer( getActivity(), null);
 //2.合成参数设置，详见《 MSC Reference Manual》 SpeechSynthesizer 类
 //设置发音人（更多在线发音人，用户可参见 附录 13.2
         mTts.setParameter(SpeechConstant. VOICE_NAME, "vixyun" ); // 设置发音人
@@ -319,7 +324,7 @@ public long getCount()
 
     private void startSpeechDialog() {
         //1. 创建RecognizerDialog对象
-        RecognizerDialog mDialog = new RecognizerDialog(this, new MyInitListener()) ;
+        RecognizerDialog mDialog = new RecognizerDialog(getActivity(), new MyInitListener()) ;
         //2. 设置accent、 language等参数
         mDialog.setParameter(SpeechConstant. LANGUAGE, "zh_cn" );// 设置中文
         mDialog.setParameter(SpeechConstant. ACCENT, "mandarin" );
@@ -482,6 +487,6 @@ public long getCount()
     };
 
     private void showTip (String data) {
-        Toast.makeText( this, data, Toast.LENGTH_SHORT).show() ;
+        Toast.makeText( getActivity(), data, Toast.LENGTH_SHORT).show() ;
     }
 }

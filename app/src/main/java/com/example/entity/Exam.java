@@ -38,7 +38,7 @@ public class Exam implements Serializable {
     public String searchRecord(String stu_name) {
         String result = null;
         for (Record record : records) {
-            if (record.getName() == stu_name) {
+            if (record.getName().equals(stu_name)) {
                 return record.getScore();
             }
         }

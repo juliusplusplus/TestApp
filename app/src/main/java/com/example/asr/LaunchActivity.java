@@ -224,8 +224,8 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case 2:
                 if (statistic == null) {
-//                    statistic = new Fragment_statistic();
-//                    transaction.add(R.id.id_content, statistic);
+                    statistic = new Fragment_display();
+                    transaction.add(R.id.id_content, statistic);
                 }else {
                     transaction.show(statistic);
                 }

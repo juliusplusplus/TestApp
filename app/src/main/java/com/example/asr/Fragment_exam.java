@@ -73,7 +73,7 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
     private int ret = 0;
     private Set a = new HashSet();
     private SaveObjectUtils utils;
-    private static final String key=Fragment_exam.class.getSimpleName();
+    private static final String mykey=Fragment_exam.class.getSimpleName();
     private Exam exam;
     //1. 创建SpeechRecognizer对象，第二个参数： 本地识别时传 InitListener
     SpeechRecognizer mIat = SpeechRecognizer.createRecognizer( getActivity(), null); //语音识别器
@@ -89,7 +89,7 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         initSpeech() ;
         a.add("1");
         a.add("2");
-        utils=new SaveObjectUtils(getActivity(),key);
+        utils=new SaveObjectUtils(getActivity(),mykey);
         exam = new Exam("一千米跑");
     }
     @Override
@@ -137,9 +137,8 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
             Record record = decode(value);
             exam.addRecords(record);
             utils.setObject(exam.getName(), exam);
-            System.out.println("key=" + key + " value=" + value);
             Exam test = utils.getObject(exam.getName(), Exam.class);
-            System.out.print(test.getRecords());
+            Log.d(TAG,"record "+ test.searchRecord("姚瑶"));
         }
         showTip(mIatResults.toString());
     }

@@ -1,18 +1,17 @@
 //package com.example.asr;
 //
 //import android.content.Context;
+//
+//import com.example.asr.data.Car;
 //import com.example.testapp.R;
-//import android.support.v4.content.ContextCompat;
 //import android.util.AttributeSet;
 //
 //import androidx.core.content.ContextCompat;
 //
 //import de.codecrafters.tableview.SortableTableView;
-//import de.codecrafters.tableview.model.TableColumnWeightModel;
 //import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 //import de.codecrafters.tableview.toolkit.SortStateViewProviders;
-//import de.codecrafters.tableview.toolkit.TableDataRowBackgroundProviders;
-//import de.codecrafters.tableviewexample.data.Car;
+//
 //
 //
 ///**

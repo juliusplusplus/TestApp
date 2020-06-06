@@ -35,5 +35,5 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.0.0'
 
     implementation 'com.qmuiteam:qmui:2.0.0-alpha08'
-    implementation 'de.codecrafters.tableview:tableview:0.9.3'
+    implementation 'de.codecrafters.tableview:tableview:2.8.0'
 }

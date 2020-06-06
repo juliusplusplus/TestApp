@@ -70,22 +70,22 @@ public class Fragment_my extends Fragment implements View.OnClickListener {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        context = getContext();
-        path = context.getFilesDir().getPath();
-        v = inflater.inflate(R.layout.fragment_my, container, false);
-        initView(v);
-        initEvent();
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            context = getContext();
+            path = context.getFilesDir().getPath();
+            v = inflater.inflate(R.layout.fragment_my, container, false);
+            initView(v);
+            initEvent();
 //        init();
 
 
-        Bitmap bt = BitmapFactory.decodeFile(path + "/" + "head.jpg");// 从SD卡中找头像，转换成Bitmap
+            Bitmap bt = BitmapFactory.decodeFile(path + "/" + "head.jpg");// 从SD卡中找头像，转换成Bitmap
 
-        if (bt != null) {
-            @SuppressWarnings("deprecation")
-            Drawable drawable = new BitmapDrawable(bt);// 转换成drawable
-            imageView.setImageDrawable(drawable);
-        }
+            if (bt != null) {
+                @SuppressWarnings("deprecation")
+                Drawable drawable = new BitmapDrawable(bt);// 转换成drawable
+                imageView.setImageDrawable(drawable);
+            }
         return v;
     }
 

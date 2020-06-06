@@ -17,8 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.asr.Exam"></activity>
-        <activity android:name="com.example.asr.Display"></activity>
+        <activity android:name="com.example.asr.Fragment_display"></activity>
     </application>
     <!--连接网络权限，用于执行云端语音能力 -->
     <uses-permission android:name="android.permission.INTERNET"/>

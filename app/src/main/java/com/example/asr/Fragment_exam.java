@@ -95,11 +95,6 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         return v;
     }
     private void initView(View v) {
-//        imageView = (CircleImageView) v.findViewById(R.id.profile_image);
-//        tv_height = (TextView) v.findViewById(R.id.tv_height);
-//        tv_birthday = (TextView) v.findViewById(R.id.tv_birth);
-//        height = (RelativeLayout) v.findViewById(R.id.height);
-//        classes = (RelativeLayout) v.findViewById(R.id.classes);
         et_input = (EditText) v.findViewById(R.id.et_input );
         btn_startspeech = (Button) v.findViewById(R.id.btn_startspeech );
         btn_startspeektext = (Button) v.findViewById(R.id.btn_startspeektext );

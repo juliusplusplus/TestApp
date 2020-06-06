@@ -1,5 +1,6 @@
 package com.example.asr;
 
+import android.app.LauncherActivity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,47 +10,54 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import androidx.appcompat.widget.Toolbar;
+import android.widget.Adapter;
+import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.entity.Exam;
+import com.example.entity.Record;
 import com.example.testapp.R;
+import com.example.util.SaveObjectUtils;
 
-import de.codecrafters.tableview.TableView;
-import de.codecrafters.tableview.model.TableColumnWeightModel;
-import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
-import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 
 
 public class Fragment_display extends Fragment implements View.OnClickListener {
 
-    private static final String[][] DATA_TO_SHOW = { { "This", "is", "a", "test" },
-            { "and", "a", "second", "test" } };
-    private View v;
-    private Context context;
-    private TableView<String[]> tableView;
+    private  View v;
+    private ListView listViewInfo;
+    private List<Record> listItems;
+    private SaveObjectUtils utils;
+    private static final String mykey="123";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.display);
-//        TableView tableView = (TableView) findViewById(R.id.tableView);
-//        tableView.setColumnCount(4);
-//        SortableTableView sortableTableView = null;
-//        sortableTableView.setColumnComparator(0, new CarProducerComparator());
+        utils=new SaveObjectUtils(getActivity(),mykey);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        context = getContext();
         v = inflater.inflate(R.layout.fragment_display, container, false);
+        listItems = getListItems();
         initView(v);
+        InfoAdapter adapter = new InfoAdapter(listItems, getActivity());
+        this.listViewInfo.setAdapter(adapter);
         initEvent();
 //        tableView = v.findViewById(R.id.tableView);
 //        tableView.setDataAdapter(new SimpleTableDataAdapter(getActivity(), DATA_TO_SHOW));
 //        init();
         return v;
+    }
+
+    private List<Record> getListItems() {
+        Exam test = utils.getObject("一千米", Exam.class);
+        return test.getRecords();
     }
 
     private void initView(View v) {
@@ -58,10 +66,7 @@ public class Fragment_display extends Fragment implements View.OnClickListener {
 //        tv_id= (TextView) v.findViewById(R.id.userid);
 //        tv_name= (TextView) v.findViewById(R.id.username);
 //        tv_sex= (TextView) v.findViewById(R.id.usersex);
-        TableColumnWeightModel columnModel = new TableColumnWeightModel(4);
-        columnModel.setColumnWeight(1, 2);
-        columnModel.setColumnWeight(2, 2);
-//        tableView.setColumnModel(columnModel);
+        this.listViewInfo = (ListView) v.findViewById(R.id.list_view);
     }
 
     private void initEvent() {

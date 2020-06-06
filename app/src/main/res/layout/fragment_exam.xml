@@ -7,27 +7,6 @@
     tools:context="com.example.asr.Fragment_exam"
     android:orientation="vertical">
 
-<!--    <RelativeLayout-->
-<!--        android:id="@+id/ly_top_bar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="48dp"-->
-<!--        android:background="@color/bg_topbar">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/content_topbar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_centerInParent="true"-->
-<!--            android:gravity="center"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textColor="@color/text_topbar"-->
-<!--            android:text="信息"/>-->
-<!--        <View-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="2px"-->
-<!--            android:background="@color/div_white"-->
-<!--            android:layout_alignParentBottom="true"/>-->
-<!--    </RelativeLayout>-->
 
     <View
         android:id="@+id/div_tab_bar"
@@ -36,14 +15,14 @@
         android:background="@color/div_white"
         android:layout_above="@id/ly_tab_bar"/>
 
-<!--    <FrameLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_below="@id/ly_top_bar"-->
-<!--        android:layout_above="@id/ly_tab_bar"-->
-<!--        android:id="@+id/ly_content">-->
+    <!--    <FrameLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_below="@id/ly_top_bar"-->
+    <!--        android:layout_above="@id/ly_tab_bar"-->
+    <!--        android:id="@+id/ly_content">-->
 
-<!--    </FrameLayout>-->
+    <!--    </FrameLayout>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

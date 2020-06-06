@@ -73,7 +73,7 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
     private int ret = 0;
     private Set a = new HashSet();
     private SaveObjectUtils utils;
-    private static final String mykey=Fragment_exam.class.getSimpleName();
+    private static final String mykey="123";
     private Exam exam;
     //1. 创建SpeechRecognizer对象，第二个参数： 本地识别时传 InitListener
     SpeechRecognizer mIat = SpeechRecognizer.createRecognizer( getActivity(), null); //语音识别器
@@ -90,7 +90,7 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         a.add("1");
         a.add("2");
         utils=new SaveObjectUtils(getActivity(),mykey);
-        exam = new Exam("一千米跑");
+        exam = new Exam("一千米");
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -438,59 +438,59 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
     /**
      * 语音识别
      */
-    private void startSpeech() {
-        //1. 创建SpeechRecognizer对象，第二个参数： 本地识别时传 InitListener
-//        SpeechRecognizer mIat = SpeechRecognizer.createRecognizer( this, null); //语音识别器
-        //2. 设置听写参数，详见《 MSC Reference Manual》 SpeechConstant类
-        mIat.setParameter(SpeechConstant. DOMAIN, "iat" );// 短信和日常用语： iat (默认)
-        mIat.setParameter(SpeechConstant. LANGUAGE, "zh_cn" );// 设置中文
-        mIat.setParameter(SpeechConstant. ACCENT, "mandarin" );// 设置普通话
-        mIat.setParameter(SpeechConstant.ASR_PTT, "0");
-        mIat.setParameter("dwa","wpgs");
-        //3. 开始听写
-        mIat.startListening( mRecoListener);
-    }
+//    private void startSpeech() {
+//        //1. 创建SpeechRecognizer对象，第二个参数： 本地识别时传 InitListener
+////        SpeechRecognizer mIat = SpeechRecognizer.createRecognizer( this, null); //语音识别器
+//        //2. 设置听写参数，详见《 MSC Reference Manual》 SpeechConstant类
+//        mIat.setParameter(SpeechConstant. DOMAIN, "iat" );// 短信和日常用语： iat (默认)
+//        mIat.setParameter(SpeechConstant. LANGUAGE, "zh_cn" );// 设置中文
+//        mIat.setParameter(SpeechConstant. ACCENT, "mandarin" );// 设置普通话
+//        mIat.setParameter(SpeechConstant.ASR_PTT, "0");
+//        mIat.setParameter("dwa","wpgs");
+//        //3. 开始听写
+//        mIat.startListening( mRecoListener);
+//    }
 
 
     // 听写监听器
-    private RecognizerListener mRecoListener = new RecognizerListener() {
-        // 听写结果回调接口 (返回Json 格式结果，用户可参见附录 13.1)；
-//一般情况下会通过onResults接口多次返回结果，完整的识别内容是多次结果的累加；
-//关于解析Json的代码可参见 Demo中JsonParser 类；
-//isLast等于true 时会话结束。
-        public void onResult(RecognizerResult results, boolean isLast) {
-            Log.d (TAG, "听写监听器"+results.getResultString());
-            System.out.println(results.getResultString()) ;
-            showTip(results.getResultString()) ;
-        }
-
-        // 会话发生错误回调接口
-        public void onError(SpeechError error) {
-            showTip(error.getPlainDescription(true)) ;
-            // 获取错误码描述
-            Log. e(TAG, "error.getPlainDescription(true)==" + error.getPlainDescription(true ));
-        }
-
-        // 开始录音
-        public void onBeginOfSpeech() {
-            showTip(" 开始录音 ");
-        }
-
-        //volume 音量值0~30， data音频数据
-        public void onVolumeChanged(int volume, byte[] data) {
-            showTip(" 声音改变了 ");
-        }
-
-        // 结束录音
-        public void onEndOfSpeech() {
-            showTip(" 结束录音 ");
-            Log. d(TAG, "结束录音");
-        }
-
-        // 扩展用接口
-        public void onEvent(int eventType, int arg1 , int arg2, Bundle obj) {
-        }
-    };
+//    private RecognizerListener mRecoListener = new RecognizerListener() {
+//        // 听写结果回调接口 (返回Json 格式结果，用户可参见附录 13.1)；
+////一般情况下会通过onResults接口多次返回结果，完整的识别内容是多次结果的累加；
+////关于解析Json的代码可参见 Demo中JsonParser 类；
+////isLast等于true 时会话结束。
+//        public void onResult(RecognizerResult results, boolean isLast) {
+//            Log.d (TAG, "听写监听器"+results.getResultString());
+//            System.out.println(results.getResultString()) ;
+//            showTip(results.getResultString()) ;
+//        }
+//
+//        // 会话发生错误回调接口
+//        public void onError(SpeechError error) {
+//            showTip(error.getPlainDescription(true)) ;
+//            // 获取错误码描述
+//            Log. e(TAG, "error.getPlainDescription(true)==" + error.getPlainDescription(true ));
+//        }
+//
+//        // 开始录音
+//        public void onBeginOfSpeech() {
+//            showTip(" 开始录音 ");
+//        }
+//
+//        //volume 音量值0~30， data音频数据
+//        public void onVolumeChanged(int volume, byte[] data) {
+//            showTip(" 声音改变了 ");
+//        }
+//
+//        // 结束录音
+//        public void onEndOfSpeech() {
+//            showTip(" 结束录音 ");
+//            Log. d(TAG, "结束录音");
+//        }
+//
+//        // 扩展用接口
+//        public void onEvent(int eventType, int arg1 , int arg2, Bundle obj) {
+//        }
+//    };
 
     private void showTip (String data) {
         Toast.makeText( getActivity(), data, Toast.LENGTH_SHORT).show() ;

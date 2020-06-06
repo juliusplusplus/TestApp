@@ -1,5 +1,6 @@
 package com.example.asr;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -49,17 +51,15 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
     private Fragment statistic;
 
     private String TAG="MainActivity";
+    private String examTag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_launch);
         initView();
         initEvent();
         restartBotton();
-        iv_1.setImageResource(R.drawable.home);
-        tv_1.setTextColor(0xff56abe4);
-        setSelect(0);
+        setSelect(3);
     }
 
     @Override
@@ -135,7 +135,8 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         // ImageView和TetxView置为绿色，页面随之跳转
         switch (view.getId()) {
             case R.id.bottom_1:
-                setSelect(0);
+                chooseDialog();
+//                setSelect(0);
                 iv_1.setImageResource(R.drawable.home);
                 tv_1.setTextColor(0xff56abe4);
                 break;
@@ -170,6 +171,41 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    /**
+     * 列表对话框
+     */
+    private void chooseDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
+        builder.setTitle("选择测试项目：");
+        builder.setCancelable(true);
+        final String[] lesson = new String[]{"1000米", "50米", "引体向上", "仰卧起坐"};
+        builder.setIcon(R.mipmap.exam_pressed)
+                .setItems(lesson, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        Toast.makeText(getApplicationContext(), "你选择了" + lesson[which], Toast.LENGTH_SHORT).show();
+                        examTag=lesson[which];
+                        setSelect(0);
+                    }
+                }).create();
+//        //设置正面按钮
+//        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
+//        //设置反面按钮
+//        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
+        AlertDialog dialog = builder.create();     //创建AlertDialog对象
+        dialog.show();                              //显示对话框
+    }
+
     private void restartBotton() {
         // ImageView置为灰色
         iv_1.setImageResource(R.drawable.home1 );
@@ -201,7 +237,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 CurrentFragment=home;
                 currentid=0;
-                toolbartitle.setText("运动");
+                toolbartitle.setText(examTag);
                 imageView_run.setVisibility(View.INVISIBLE);
                 imageView_set.setVisibility(View.INVISIBLE);
                 imageView_contact.setVisibility(View.GONE);

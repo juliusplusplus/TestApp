@@ -39,6 +39,8 @@ public class Fragment_display extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         utils=new SaveObjectUtils(getActivity(),mykey);
+//        Exam test = utils.getObject("一千米", Exam.class);
+//        System.out.print(test);
     }
 
     @Override

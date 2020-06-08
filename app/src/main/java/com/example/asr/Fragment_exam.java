@@ -85,12 +85,15 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
         ReadFileUtil.verifyStoragePermissions(getActivity());
-        super .onCreate(savedInstanceState) ;
+        super.onCreate(savedInstanceState) ;
         initSpeech() ;
         a.add("1");
         a.add("2");
         utils=new SaveObjectUtils(getActivity(),mykey);
         exam = new Exam("一千米");
+        Record record = new Record("小明", "13分");
+        exam.addRecords(record);
+        utils.setObject(exam.getName(), exam);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -405,7 +408,7 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
                 e.printStackTrace();
             }
 
-            mIatResults .put(sn, SpeechText) ;//没有得到一句，添加到
+            mIatResults.put(sn, SpeechText) ;//没有得到一句，添加到
 
             StringBuffer resultBuffer = new StringBuffer();
             for (String key : mIatResults.keySet()) {

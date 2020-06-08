@@ -91,9 +91,10 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         a.add("2");
         utils=new SaveObjectUtils(getActivity(),mykey);
         exam = new Exam("一千米");
-        Record record = new Record("小明", "13分");
-        exam.addRecords(record);
-        utils.setObject(exam.getName(), exam);
+        //测试
+//        Record record = new Record("小明", "13分");
+//        exam.addRecords(record);
+//        utils.setObject(exam.getName(), exam);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -132,17 +133,20 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         values.put("score",15);
         Log.d(TAG,"updateData "+SpeechText);
         db.update("student",values,"name=?",new String[]{SpeechText});
+        StringBuilder result = new StringBuilder();
         Iterator it = mIatResults.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry entry = (Map.Entry) it.next();
             Object key = entry.getKey();
             String value = entry.getValue().toString();
-            Record record = decode(value);
-            exam.addRecords(record);
-            utils.setObject(exam.getName(), exam);
-            Exam test = utils.getObject(exam.getName(), Exam.class);
-            Log.d(TAG,"record "+ test.searchRecord("姚瑶"));
+            result.append(value);
+//            Record record = decode(value);
+//            if (record != null) exam.addRecords(record);
+            //Log.d(TAG,"record "+ test.searchRecord("姚瑶"));
         }
+        Record record = decode(result.toString());
+        if (record != null) exam.addRecords(record);
+        utils.setObject(exam.getName(), exam);
         showTip(mIatResults.toString());
     }
 
@@ -158,6 +162,9 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
             i += 1;
         }
         if (i==len) return null;
+        String a = str.substring(0, index);
+        String b = str.substring(index);
+        if (a.isEmpty() && b.isEmpty()) return null;
         return new Record(str.substring(0, index), str.substring(index));
         //b.put(str.substring(0, index), str.substring(index));
     }

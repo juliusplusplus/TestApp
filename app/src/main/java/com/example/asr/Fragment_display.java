@@ -46,14 +46,10 @@ public class Fragment_display extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_display, container, false);
-        listItems = getListItems();
         initView(v);
+        listItems = getListItems();
         InfoAdapter adapter = new InfoAdapter(listItems, getActivity());
         this.listViewInfo.setAdapter(adapter);
-        initEvent();
-//        tableView = v.findViewById(R.id.tableView);
-//        tableView.setDataAdapter(new SimpleTableDataAdapter(getActivity(), DATA_TO_SHOW));
-//        init();
         return v;
     }
 
@@ -71,11 +67,6 @@ public class Fragment_display extends Fragment implements View.OnClickListener {
         this.listViewInfo = (ListView) v.findViewById(R.id.list_view);
     }
 
-    private void initEvent() {
-//        weight.setOnClickListener(this);
-//        classses.setOnClickListener(this);
-//        imageView.setOnClickListener(this);
-    }
 //
 //    private static class CarProducerComparator implements Comparator<Car> {
 //        @Override

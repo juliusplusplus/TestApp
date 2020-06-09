@@ -35,6 +35,12 @@ public class Fragment_display extends Fragment {
     private List<Record> listItems;
     private SaveObjectUtils utils;
     private static final String mykey="123";
+    private Exam exam;
+    private String displayTag = "1000米";
+    private String exam1 = null;
+    private String exam2 = null;
+    private String exam3 = null;
+    private String exam4 = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,31 +61,77 @@ public class Fragment_display extends Fragment {
     public void onResume() {
 
         super.onResume();
-        listItems = getListItems();
+        if(isAdded())
+            displayTag = getArguments().getString("examDisplayTag");
+        listItems = getListItems(displayTag);
         InfoAdapter adapter = new InfoAdapter(listItems, getActivity());
         this.listViewInfo.setAdapter(adapter);
     }
+
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        if (isAdded()) {//判断Fragment已经依附Activity
+//            displayTag = getArguments().getString("examDisplayTag");
+//            if(a == "1000米"&& exam1 == null){
+//                exam = new Exam(a);
+//                exam1=a;
+//            }
+//            if(a == "50米"&& exam2 == null){
+//                exam = new Exam(a);
+//                exam2=a;
+//            }
+//            if(a == "引体向上"&& exam3 == null){
+//                exam = new Exam(a);
+//                exam3=a;
+//            }
+//            if(a == "仰卧起坐"&& exam4 == null){
+//                exam = new Exam(a);
+//                exam4=a;
+//            }
+//        }
+//    }
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (v != null && !hidden)
         {
-            listItems = getListItems();
+            displayTag = getArguments().getString("examDisplayTag");
+            listItems = getListItems(displayTag);
             InfoAdapter adapter = new InfoAdapter(listItems, getActivity());
             this.listViewInfo.setAdapter(adapter);
         }
+//        if (isAdded()) {//判断Fragment已经依附Activity
+//            String a = getArguments().getString("examDisplayTag");
+//            if(a == "1000米"&& exam1 == null){
+//                exam = new Exam(a);
+//                exam1=a;
+//            }
+//            if(a == "50米"&& exam2 == null){
+//                exam = new Exam(a);
+//                exam2=a;
+//            }
+//            if(a == "引体向上"&& exam3 == null){
+//                exam = new Exam(a);
+//                exam3=a;
+//            }
+//            if(a == "仰卧起坐"&& exam4 == null){
+//                exam = new Exam(a);
+//                exam4=a;
+//            }
+//        }
     }
 
     private void showTip (String data) {
         Toast.makeText( getActivity(), data, Toast.LENGTH_SHORT).show() ;
     }
 
-    private List<Record> getListItems() {
-        Exam test = utils.getObject("1000米", Exam.class);
+
+    private List<Record> getListItems(String data) {
+        Exam test = utils.getObject(data, Exam.class);
         return test.getRecords();
     }
-
-
 //
 //    private static class CarProducerComparator implements Comparator<Car> {
 //        @Override

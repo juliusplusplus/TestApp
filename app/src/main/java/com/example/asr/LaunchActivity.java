@@ -52,6 +52,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
 
     private String TAG="MainActivity";
     private String examTag;
+    private String examDisplayTag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,9 +147,10 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                 setSelect(1);
                 break;
             case R.id.bottom_3:
+                displayDialog();
                 iv_3.setImageResource(R.drawable.statitas);
                 tv_3.setTextColor(0xff56abe4);
-                setSelect(2);
+//                setSelect(2);
                 break;
             case R.id.bottom_4:
                 iv_4.setImageResource(R.drawable.my);
@@ -185,7 +187,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                     public void onClick(DialogInterface dialog, int which) {
 //                        Toast.makeText(getApplicationContext(), "你选择了" + lesson[which], Toast.LENGTH_SHORT).show();
                         examTag=lesson[which];
-                        getTitles();
+//                        getTitles();
                         setSelect(0);
                     }
                 }).create();
@@ -207,9 +209,32 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         dialog.show();                              //显示对话框
     }
 
-    public String getTitles(){
-        return examTag;
+
+    private void displayDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
+        builder.setTitle("选择展示项目：");
+        builder.setCancelable(true);
+        final String[] lesson = new String[]{"1000米", "50米", "引体向上", "仰卧起坐"};
+        builder.setIcon(R.mipmap.exam_pressed)
+                .setItems(lesson, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        examDisplayTag=lesson[which];
+//                        getDisplayTitles();
+                        setSelect(2);
+                    }
+                }).create();
+        AlertDialog dialog = builder.create();     //创建AlertDialog对象
+        dialog.show();                              //显示对话框
     }
+
+//    public String getTitles(){
+//        return examTag;
+//    }
+//
+//    public String getDisplayTitles(){
+//        return examDisplayTag;
+//    }
     private void restartBotton() {
         // ImageView置为灰色
         iv_1.setImageResource(R.drawable.home1 );
@@ -229,6 +254,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
     }
     private void setSelect(int i) {
         Bundle bundle = new Bundle();
+        Bundle bundle2 = new Bundle();
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();//创建一个事务
@@ -276,7 +302,9 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 CurrentFragment=statistic;
                 currentid=2;
-                toolbartitle.setText("跑步");
+                toolbartitle.setText(examDisplayTag);
+                bundle2.putString("examDisplayTag", examDisplayTag);
+                statistic.setArguments(bundle2);
                 imageView_run.setVisibility(View.GONE);
                 imageView_set.setVisibility(View.GONE);
                 imageView_add.setVisibility(View.GONE);

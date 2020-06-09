@@ -75,6 +75,10 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
     private static final String mykey="123";
     private Exam exam;
     private String examClass;
+    private String exam1 = null;
+    private String exam2 = null;
+    private String exam3 = null;
+    private String exam4 = null;
     //1. 创建SpeechRecognizer对象，第二个参数： 本地识别时传 InitListener
     SpeechRecognizer mIat = SpeechRecognizer.createRecognizer( getActivity(), null); //语音识别器
 
@@ -105,7 +109,6 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
 //        exam.addRecords(record);
 //        utils.setObject(exam.getName(), exam);
     }
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mContext = getContext();
@@ -116,20 +119,35 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         return v;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        examClass  = ((LaunchActivity) context).getTitles();//通过强转成宿主activity，就可以获取到传递过来的数据
-//        showTip(examClass);
-        exam = new Exam(examClass);
-    }
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        examClass  = ((LaunchActivity) context).getTitles();//通过强转成宿主activity，就可以获取到传递过来的数据
+////        showTip(examClass);
+//        exam = new Exam(examClass);
+//    }
 
     @Override
     public void onStart() {
         super.onStart();
         if (isAdded()) {//判断Fragment已经依附Activity
             String a = getArguments().getString("examTag");
-            exam = new Exam(a);
+            if(a == "1000米"&& exam1 == null){
+                exam = new Exam(a);
+                exam1=a;
+            }
+            if(a == "50米"&& exam2 == null){
+                exam = new Exam(a);
+                exam2=a;
+            }
+            if(a == "引体向上"&& exam3 == null){
+                exam = new Exam(a);
+                exam3=a;
+            }
+            if(a == "仰卧起坐"&& exam4 == null){
+                exam = new Exam(a);
+                exam4=a;
+            }
         }
     }
 
@@ -138,7 +156,22 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         super.onHiddenChanged(hidden);
         if (isAdded()) {//判断Fragment已经依附Activity
             String a = getArguments().getString("examTag");
-            exam = new Exam(a);
+            if(a == "1000米"&& exam1 == null){
+                exam = new Exam(a);
+                exam1=a;
+            }
+            if(a == "50米"&& exam2 == null){
+                exam = new Exam(a);
+                exam2=a;
+            }
+            if(a == "引体向上"&& exam3 == null){
+                exam = new Exam(a);
+                exam3=a;
+            }
+            if(a == "仰卧起坐"&& exam4 == null){
+                exam = new Exam(a);
+                exam4=a;
+            }
         }
     }
     private void initView(View v) {

@@ -133,6 +133,9 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         values.put("score",15);
         Log.d(TAG,"updateData "+SpeechText);
         db.update("student",values,"name=?",new String[]{SpeechText});
+    }
+
+    private void transData(){
         StringBuilder result = new StringBuilder();
         Iterator it = mIatResults.entrySet().iterator();
         while (it.hasNext()) {
@@ -142,7 +145,7 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
             result.append(value);
 //            Record record = decode(value);
 //            if (record != null) exam.addRecords(record);
-            //Log.d(TAG,"record "+ test.searchRecord("姚瑶"));
+            //mLog.d(TAG,"record "+ test.searchRecord("姚瑶"));
         }
         Record record = decode(result.toString());
         if (record != null) exam.addRecords(record);
@@ -168,9 +171,7 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         return new Record(str.substring(0, index), str.substring(index));
         //b.put(str.substring(0, index), str.substring(index));
     }
-    private void strTomap(String str,Map<String,String> results){
 
-    }
     private void addData(){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -405,7 +406,8 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
 //            String filePath = "/sdcard/tmp/";
 //            String fileName = "data.txt";
 //            ReadFileUtil.writeTxtToFile("Wx:lcti1314", filePath, fileName);
-            showTip(SpeechText);
+
+//            showTip(SpeechText);
             String sn = null;
             // 读取json结果中的 sn字段
             try {
@@ -424,6 +426,12 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
 
             et_input.setText(resultBuffer.toString());// 设置输入框的文本
             et_input .setSelection(et_input.length()) ;//把光标定位末尾
+
+            if(isLast == true){
+//                showTip(mIatResults.toString());
+                transData();
+            }
+
         }
 
 

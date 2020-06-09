@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -27,7 +28,7 @@ import java.util.ListIterator;
 import java.util.Map;
 
 
-public class Fragment_display extends Fragment implements View.OnClickListener {
+public class Fragment_display extends Fragment {
 
     private  View v;
     private ListView listViewInfo;
@@ -46,11 +47,31 @@ public class Fragment_display extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_display, container, false);
-        initView(v);
+        this.listViewInfo = (ListView) v.findViewById(R.id.list_view);
+        return v;
+    }
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
         listItems = getListItems();
         InfoAdapter adapter = new InfoAdapter(listItems, getActivity());
         this.listViewInfo.setAdapter(adapter);
-        return v;
+    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (v != null && !hidden)
+        {
+            listItems = getListItems();
+            InfoAdapter adapter = new InfoAdapter(listItems, getActivity());
+            this.listViewInfo.setAdapter(adapter);
+        }
+    }
+
+    private void showTip (String data) {
+        Toast.makeText( getActivity(), data, Toast.LENGTH_SHORT).show() ;
     }
 
     private List<Record> getListItems() {
@@ -58,14 +79,6 @@ public class Fragment_display extends Fragment implements View.OnClickListener {
         return test.getRecords();
     }
 
-    private void initView(View v) {
-//        imageView = (CircleImageView) v.findViewById(R.id.profile_image);
-//        classses = (RelativeLayout) v.findViewById(R.id.classes);
-//        tv_id= (TextView) v.findViewById(R.id.userid);
-//        tv_name= (TextView) v.findViewById(R.id.username);
-//        tv_sex= (TextView) v.findViewById(R.id.usersex);
-        this.listViewInfo = (ListView) v.findViewById(R.id.list_view);
-    }
 
 //
 //    private static class CarProducerComparator implements Comparator<Car> {
@@ -95,10 +108,6 @@ public class Fragment_display extends Fragment implements View.OnClickListener {
         //添加监听事件
 //        carTableView.addDataClickListener(new CarClickListener());
 
-    @Override
-    public void onClick(View v) {
-
-    }
 
     //表单内的点触时间，以行为单位
 //    private class CarClickListener implements TableDataClickListener<Car> {

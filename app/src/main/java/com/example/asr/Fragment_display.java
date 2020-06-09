@@ -75,7 +75,7 @@ public class Fragment_display extends Fragment {
     }
 
     private List<Record> getListItems() {
-        Exam test = utils.getObject("一千米", Exam.class);
+        Exam test = utils.getObject("1000米", Exam.class);
         return test.getRecords();
     }
 

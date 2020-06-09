@@ -185,6 +185,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                     public void onClick(DialogInterface dialog, int which) {
 //                        Toast.makeText(getApplicationContext(), "你选择了" + lesson[which], Toast.LENGTH_SHORT).show();
                         examTag=lesson[which];
+                        getTitles();
                         setSelect(0);
                     }
                 }).create();
@@ -206,6 +207,9 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         dialog.show();                              //显示对话框
     }
 
+    public String getTitles(){
+        return examTag;
+    }
     private void restartBotton() {
         // ImageView置为灰色
         iv_1.setImageResource(R.drawable.home1 );

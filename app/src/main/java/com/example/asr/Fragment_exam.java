@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.app.Activity ;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast ;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.example.db.DatabaseHelper;
@@ -64,9 +66,6 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
     private Button btn_startspeech, btn_startspeektext ;
     private Context mContext;
     private String SpeechText;
-    private CircleImageView imageView;
-    private RelativeLayout classes;
-    private static String path;
     private DatabaseHelper dbHelper;
     private View v;
     private int i = 1;
@@ -75,12 +74,14 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
     private SaveObjectUtils utils;
     private static final String mykey="123";
     private Exam exam;
+    private String examClass;
     //1. 创建SpeechRecognizer对象，第二个参数： 本地识别时传 InitListener
     SpeechRecognizer mIat = SpeechRecognizer.createRecognizer( getActivity(), null); //语音识别器
 
     // 用HashMap存储听写结果
     private HashMap<String, String> mIatResults = new LinkedHashMap<String , String>();
     private HashMap<String, String> b = new HashMap<>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -89,22 +90,41 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         initSpeech() ;
         a.add("1");
         a.add("2");
+        a.add("3");
+        a.add("4");
+        a.add("5");
+        a.add("6");
+        a.add("7");
+        a.add("8");
+        a.add("9");
+        a.add("0");
         utils=new SaveObjectUtils(getActivity(),mykey);
-        exam = new Exam("一千米");
-        //测试
+//        exam = new Exam("1000米");
+//        测试
 //        Record record = new Record("小明", "13分");
 //        exam.addRecords(record);
 //        utils.setObject(exam.getName(), exam);
     }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mContext = getContext();
         dbHelper = new DatabaseHelper(mContext,"",null,2);
-        path = mContext.getFilesDir().getPath();
+//        path = mContext.getFilesDir().getPath();
         v = inflater.inflate(R.layout.fragment_exam, container, false);
         initView(v);
         return v;
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        examClass  = ((LaunchActivity) context).getTitles();//通过强转成宿主activity，就可以获取到传递过来的数据
+        showTip(examClass);
+        exam = new Exam(examClass);
+    }
+
+
     private void initView(View v) {
         et_input = (EditText) v.findViewById(R.id.et_input );
         btn_startspeech = (Button) v.findViewById(R.id.btn_startspeech );

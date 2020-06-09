@@ -120,11 +120,27 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
     public void onAttach(Context context) {
         super.onAttach(context);
         examClass  = ((LaunchActivity) context).getTitles();//通过强转成宿主activity，就可以获取到传递过来的数据
-        showTip(examClass);
+//        showTip(examClass);
         exam = new Exam(examClass);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (isAdded()) {//判断Fragment已经依附Activity
+            String a = getArguments().getString("examTag");
+            exam = new Exam(a);
+        }
+    }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (isAdded()) {//判断Fragment已经依附Activity
+            String a = getArguments().getString("examTag");
+            exam = new Exam(a);
+        }
+    }
     private void initView(View v) {
         et_input = (EditText) v.findViewById(R.id.et_input );
         btn_startspeech = (Button) v.findViewById(R.id.btn_startspeech );

@@ -228,6 +228,8 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         setSupportActionBar(toolbar);
     }
     private void setSelect(int i) {
+        Bundle bundle = new Bundle();
+
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();//创建一个事务
         hideFragment(transaction);//我们先把所有的Fragment隐藏了，然后下面再开始处理具体要显示的Fragment
@@ -242,6 +244,9 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                 CurrentFragment=home;
                 currentid=0;
                 toolbartitle.setText(examTag);
+
+                bundle.putString("examTag", examTag);
+                home.setArguments(bundle);
                 imageView_run.setVisibility(View.INVISIBLE);
                 imageView_set.setVisibility(View.INVISIBLE);
                 imageView_contact.setVisibility(View.GONE);
@@ -295,7 +300,11 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
             default:
                 break;
         }
+
         transaction.commit();//提交事务
+
+
+
     }
 
     private void hideFragment(FragmentTransaction transaction) {

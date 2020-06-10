@@ -8,6 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import android.app.Activity ;
+import android.os.Environment;
+import android.text.format.Time;
 import android.util.Log ;
 import android.view.LayoutInflater;
 import android.view.View ;
@@ -75,6 +77,7 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
     private static final String mykey="123";
     private Exam exam;
     private String examClass;
+    RecognizerDialog mDialog ;
     private String exam1 = null;
     private String exam2 = null;
     private String exam3 = null;
@@ -303,12 +306,7 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         }
 
     }
-//    private void qmuiTabSegment()
-//    {
-//        new QMUITabSegment(this)
-//                .setupWithViewPager();
-//
-//    }
+
     public long getCount()
     {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -320,27 +318,6 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         showTip(String.valueOf(result));
         return result;
 }
-//    private void qmuiTest(){
-//        new QMUIDialog.MessageDialogBuilder(this)
-//                .setTitle("QMUI对话框标题")
-//                .setMessage("这是QMUI框架对话框的内容")
-//                .addAction("取消", new QMUIDialogAction.ActionListener() {
-//                    @Override
-//                    public void onClick(QMUIDialog dialog, int index) {
-//                        dialog.dismiss();
-//                        Toast.makeText(MainActivity.this, "点击了取消按钮", Toast.LENGTH_SHORT).show();
-//
-//                    }
-//                })
-//                .addAction("确定", new QMUIDialogAction.ActionListener() {
-//                    @Override
-//                    public void onClick(QMUIDialog dialog, int index) {
-//                        dialog.dismiss();
-//                        Toast.makeText(MainActivity.this, "点击了确定按钮", Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                .show();
-//    }
 
     private void speekText() {
         //1. 创建 SpeechSynthesizer 对象 , 第二个参数： 本地合成时传 InitListener
@@ -410,11 +387,13 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
 
     private void startSpeechDialog() {
         //1. 创建RecognizerDialog对象
-        RecognizerDialog mDialog = new RecognizerDialog(getActivity(), new MyInitListener()) ;
+        mDialog = new RecognizerDialog(getActivity(), new MyInitListener()) ;
         //2. 设置accent、 language等参数
         mDialog.setParameter(SpeechConstant. LANGUAGE, "zh_cn" );// 设置中文
         mDialog.setParameter(SpeechConstant. ACCENT, "mandarin" );
         mDialog.setParameter(SpeechConstant.ASR_PTT, "0");
+        mDialog.setParameter(SpeechConstant.AUDIO_FORMAT,"wav");
+
         // 若要将UI控件用于语义理解，必须添加以下参数设置，设置之后 onResult回调返回将是语义理解
         // 结果
         // mDialog.setParameter("asr_sch", "1");
@@ -465,6 +444,17 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         public void onResult(RecognizerResult results, boolean isLast) {
             String result = results.getResultString(); //为解析的
 //            showTip(result) ;
+            Time t = new Time("GMT+8");
+            t.setToNow();
+            String year = t.year+"";
+            String month = t.month+1+"";
+            String day = t.monthDay+"";
+            String hour = t.hour+""; // 0-23
+            String minute = t.minute+"";
+            String second = t.second+"";
+            String a=year+month+day+hour+minute+second;
+            mDialog.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory()+"/msc/"+a+".wav");
+            showTip(t.toString());
             System. out.println(" 没有解析的 :" + result);
 //            Log.d (TAG, "没有解析的 " + results.getResultString());
 

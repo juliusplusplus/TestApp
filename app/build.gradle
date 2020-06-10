@@ -36,4 +36,5 @@ dependencies {
 
     implementation 'com.qmuiteam:qmui:2.0.0-alpha08'
     implementation 'de.codecrafters.tableview:tableview:2.8.0'
+    implementation 'org.litepal.guolindev:core:3.1.1'
 }

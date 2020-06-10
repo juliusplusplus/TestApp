@@ -12,16 +12,23 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.db.DbTeacher;
 import com.example.testapp.R;
+import com.google.android.material.tabs.TabLayout;
+
+import org.litepal.LitePal;
+import org.litepal.crud.LitePalSupport;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,17 +42,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Fragment_my extends Fragment implements View.OnClickListener {
     TextView textView;
     private CircleImageView imageView;
+    private String teachName="丁非真";
     private Context context;
     private Bitmap head;// 头像Bitmap
     private static String path;// sd路径
     private RelativeLayout classses;
-    private RelativeLayout weight;
     private View v;
-    private PopupWindow popupWindow = null;
+    private Button uploadButton;
+    private Button addButton;
+    private Button showButton;
     private LayoutInflater inflater_pop;
-    private TextView tv_height;
-    private TextView tv_birthday;
-    private TextView tv_weight;
+    private TextView tv_classNum;
     private TextView tv_id;
     private TextView tv_name;
     private TextView tv_sex;
@@ -70,29 +77,35 @@ public class Fragment_my extends Fragment implements View.OnClickListener {
 
 
     @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            context = getContext();
-            path = context.getFilesDir().getPath();
-            v = inflater.inflate(R.layout.fragment_my, container, false);
-            initView(v);
-            initEvent();
-//        init();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        context = getContext();
+        path = context.getFilesDir().getPath();
+        v = inflater.inflate(R.layout.fragment_my, container, false);
+        initView(v);
 
+        List<DbTeacher> teachers = LitePal.where("name=?",teachName).find(DbTeacher.class);
+        tv_classNum.setText(String.valueOf(teachers.size()));
 
-            Bitmap bt = BitmapFactory.decodeFile(path + "/" + "head.jpg");// 从SD卡中找头像，转换成Bitmap
+        initEvent();
 
-            if (bt != null) {
-                @SuppressWarnings("deprecation")
-                Drawable drawable = new BitmapDrawable(bt);// 转换成drawable
-                imageView.setImageDrawable(drawable);
-            }
-        return v;
+        Bitmap bt = BitmapFactory.decodeFile(path + "/" + "head.jpg");// 从SD卡中找头像，转换成Bitmap
+
+        if (bt != null) {
+            @SuppressWarnings("deprecation")
+            Drawable drawable = new BitmapDrawable(bt);// 转换成drawable
+            imageView.setImageDrawable(drawable);
+        }
+    return v;
     }
 
     private void initEvent() {
 //        weight.setOnClickListener(this);
         classses.setOnClickListener(this);
         imageView.setOnClickListener(this);
+        uploadButton.setOnClickListener(this);
+        addButton.setOnClickListener(this);
+        showButton.setOnClickListener(this);
+        tv_classNum.setOnClickListener(this);
     }
 
 //    private void init() {
@@ -122,6 +135,11 @@ public class Fragment_my extends Fragment implements View.OnClickListener {
         tv_id= (TextView) v.findViewById(R.id.userid);
         tv_name= (TextView) v.findViewById(R.id.username);
         tv_sex= (TextView) v.findViewById(R.id.usersex);
+        uploadButton=v.findViewById(R.id.btn_upload);
+        addButton=v.findViewById(R.id.btn_add);
+        showButton=v.findViewById(R.id.btn_show);
+        tv_classNum=v.findViewById(R.id.tv_classNum);
+
     }
 
     @Override
@@ -144,14 +162,29 @@ public class Fragment_my extends Fragment implements View.OnClickListener {
             case R.id.classes:
 //                slect_height(view);
                 break;
-            case R.id.rl_birthday:
-//                select_birth();
+            case R.id.btn_upload:
+//                LitePal.getDatabase();
+                LitePal.deleteDatabase("asrDb");
+                LitePal.getDatabase();
                 break;
-//            case R.id.weight:
-//                Intent It_weight = new Intent();
-//                It_weight.setClass(getActivity(), WeightActivity.class);
-//                startActivity(It_weight);
-//                break;
+            case R.id.btn_add:
+//                DbTeacher teacher = new DbTeacher();
+//                DbTeacher teacher1 = new DbTeacher();
+//                teacher.setName("丁非真");
+//                teacher.setClasses("202001");
+//                teacher.save();
+//                teacher1.setName("丁非真");
+//                teacher1.setClasses("202002");
+//                teacher1.save();
+                break;
+            case R.id.btn_show:
+//                List<DbTeacher> teachers = LitePal.findAll(DbTeacher.class);
+//                for(DbTeacher a: teachers){
+//                    Log.d("showDbTeacher","teacher name is "+a.getName());
+//                    Log.d("showDbTeacher","teacher classes is "+a.getClasses());
+//                    Log.d("showDbTeacher","teacher id is "+a.getId());
+//                }
+                break;
         }
     }
 

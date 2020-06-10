@@ -90,7 +90,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
     private void initEvent() {
         // 设置按钮监听
         buttom_1.setOnClickListener(this);
-        buttom_2.setOnClickListener(this);
+//        buttom_2.setOnClickListener(this);
         buttom_3.setOnClickListener(this);
         buttom_4.setOnClickListener(this);
         imageView_run.setOnClickListener(this);
@@ -108,19 +108,19 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         imageView_add= (ImageView) findViewById(R.id.add);
         imageView_contact= (ImageView) findViewById(R.id.friend);
         this.buttom_1 = (LinearLayout) findViewById(R.id.bottom_1);
-        this.buttom_2 = (LinearLayout) findViewById(R.id.bottom_2);
+//        this.buttom_2 = (LinearLayout) findViewById(R.id.bottom_2);
         this.buttom_3 = (LinearLayout) findViewById(R.id.bottom_3);
         this.buttom_4 = (LinearLayout) findViewById(R.id.bottom_4);
 
         // 底部菜单4个ImageView
         this.iv_1 = (ImageView) findViewById(R.id.iv_buttom1);
-        this.iv_2 = (ImageView) findViewById(R.id.iv_buttom2);
+//        this.iv_2 = (ImageView) findViewById(R.id.iv_buttom2);
         this.iv_3 = (ImageView) findViewById(R.id.iv_buttom3);
         this.iv_4 = (ImageView) findViewById(R.id.iv_buttom4);
 
         // 底部菜单4个菜单标题
         this.tv_1 = (TextView) findViewById(R.id.tv_buttom1);
-        this.tv_2 = (TextView) findViewById(R.id.tv_buttom2);
+//        this.tv_2 = (TextView) findViewById(R.id.tv_buttom2);
         this.tv_3 = (TextView) findViewById(R.id.tv_buttom3);
         this.tv_4 = (TextView) findViewById(R.id.tv_buttom4);
 
@@ -141,11 +141,11 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                 iv_1.setImageResource(R.drawable.home);
                 tv_1.setTextColor(0xff56abe4);
                 break;
-            case R.id.bottom_2:
-                iv_2.setImageResource(R.drawable.find);
-                tv_2.setTextColor(0xff56abe4);
-                setSelect(1);
-                break;
+//            case R.id.bottom_2:
+//                iv_2.setImageResource(R.drawable.find);
+//                tv_2.setTextColor(0xff56abe4);
+//                setSelect(1);
+//                break;
             case R.id.bottom_3:
                 displayDialog();
                 iv_3.setImageResource(R.drawable.statitas);
@@ -238,12 +238,12 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
     private void restartBotton() {
         // ImageView置为灰色
         iv_1.setImageResource(R.drawable.home1 );
-        iv_2.setImageResource(R.drawable.find1);
+//        iv_2.setImageResource(R.drawable.find1);
         iv_3.setImageResource(R.drawable.static1);
         iv_4.setImageResource(R.drawable.use1);
 
         tv_1.setTextColor(0xffa9b7b7);
-        tv_2.setTextColor(0xffa9b7b7);
+//        tv_2.setTextColor(0xffa9b7b7);
         tv_3.setTextColor(0xffa9b7b7);
         tv_4.setTextColor(0xffa9b7b7);
     }

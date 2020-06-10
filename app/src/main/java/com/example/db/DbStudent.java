@@ -1,6 +1,9 @@
 package com.example.db;
 
-public class DbStudent {
+import org.litepal.LitePal;
+import org.litepal.crud.LitePalSupport;
+
+public class DbStudent extends LitePalSupport {
     private int id;
     private String name;
     private String sex;

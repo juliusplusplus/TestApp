@@ -2,13 +2,17 @@ package com.example.asr;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.inputmethodservice.Keyboard;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -20,21 +24,29 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import com.example.db.DbStudent;
 import com.example.db.DbTeacher;
 import com.example.testapp.R;
+import com.example.util.AndroidFileUtil;
 import com.google.android.material.tabs.TabLayout;
 
 import org.litepal.LitePal;
 import org.litepal.crud.LitePalSupport;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -59,19 +71,10 @@ public class Fragment_my extends Fragment implements View.OnClickListener {
     private List<String> a = new ArrayList<String>();
     private List<String> year = new ArrayList<String>();
     private List<String> month = new ArrayList<String>();
+    List<DbStudent> studentList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-//        a.clear();
-//        year.clear();
-//        month.clear();
-//        for (int i = 0; i < 130; i++)
-//            a.add(i + 100 + "");
-//        for (int j = 1; j < 13; j++)
-//            month.add(j + "");
-//        for (int k = 0; k < 100; k++)
-//            year.add(1916 + k + "");
-//        sp = new SharePreferenceUtil(getContext(), SharePreferenceConf.PERSONINFO);
         super.onCreate(savedInstanceState);
     }
 
@@ -128,9 +131,6 @@ public class Fragment_my extends Fragment implements View.OnClickListener {
 
     private void initView(View v) {
         imageView = (CircleImageView) v.findViewById(R.id.profile_image);
-//        tv_height = (TextView) v.findViewById(R.id.tv_height);
-//        tv_birthday = (TextView) v.findViewById(R.id.tv_birth);
-//        tv_weight = (TextView) v.findViewById(R.id.tv_weight);
         classses = (RelativeLayout) v.findViewById(R.id.classes);
         tv_id= (TextView) v.findViewById(R.id.userid);
         tv_name= (TextView) v.findViewById(R.id.username);
@@ -139,7 +139,6 @@ public class Fragment_my extends Fragment implements View.OnClickListener {
         addButton=v.findViewById(R.id.btn_add);
         showButton=v.findViewById(R.id.btn_show);
         tv_classNum=v.findViewById(R.id.tv_classNum);
-
     }
 
     @Override
@@ -163,9 +162,12 @@ public class Fragment_my extends Fragment implements View.OnClickListener {
 //                slect_height(view);
                 break;
             case R.id.btn_upload:
+//                LitePal.deleteDatabase("asrDb");
 //                LitePal.getDatabase();
-                LitePal.deleteDatabase("asrDb");
-                LitePal.getDatabase();
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("*/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
+                intent.addCategory(Intent.CATEGORY_OPENABLE);// 只有设置了这个，返回的uri才能使用 getContentResolver().openInputStream(uri) 打开。
+                startActivityForResult(intent, 4);
                 break;
             case R.id.btn_add:
 //                DbTeacher teacher = new DbTeacher();
@@ -188,69 +190,34 @@ public class Fragment_my extends Fragment implements View.OnClickListener {
         }
     }
 
-//    private void slect_height(View view) {
-//        View contentView = LayoutInflater.from(context).inflate(
-//                R.layout.wheelview_height, null);
-//        TextView ok = (TextView) contentView.findViewById(R.id.ok);
-//        TextView cancel = (TextView) contentView.findViewById(R.id.cancel);
-//        popupWindow = new PopupWindow(contentView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-//        popupWindow.setContentView(contentView);
-//        wheelView = (WheelView) contentView.findViewById(R.id.wheelview);
-//        wheelView.setWheelAdapter(new ArrayWheelAdapter(context)); // 文本数据源
-//        wheelView.setSkin(WheelView.Skin.Holo); // common皮肤
-//        wheelView.setExtraText("厘米", Color.parseColor("#0288ce"), 50, 100);
-//        WheelView.WheelViewStyle style = new WheelView.WheelViewStyle();
-//        style.textColor = Color.GRAY;
-//        style.selectedTextColor = Color.parseColor("#0288ce");
-//        //  style.selectedTextColor=Color.BLUE;
-//        // style.backgroundColor=Color.WHITE;
-//        // style.holoBorderColor=Color.GRAY;
-//        wheelView.setStyle(style);
-//        wheelView.setWheelData(a);  // 数据集合
-//        if(sp.getHeight(sp.getUsername())==0)
-//            wheelView.setSelection(175 - 100);
-//        else
-//            wheelView.setSelection(sp.getHeight(sp.getUsername()) - 100);
-//        wheelView.setWheelSize(5);
-//        popupWindow.setFocusable(true);
-//        ColorDrawable dw = new ColorDrawable(0xb0000000);
-//        popupWindow.setBackgroundDrawable(dw);
-//
-//        popupWindow.setAnimationStyle(R.style.mypopwindow_anim_style);
-//        //popupWindow.setOutsideTouchable(false);
-//        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-//        lp.alpha = 0.7f;
-//        getActivity().getWindow().setAttributes(lp);
-//        popupWindow.showAtLocation(getActivity().findViewById(R.id.main), Gravity.BOTTOM | Gravity
-//                .CENTER_HORIZONTAL, 0, 0);
-//        ok.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                tv_height.setText(wheelView.getCurrentPosition() + 100 + "厘米");
-//                sp.setHeight(sp.getUsername(), wheelView.getCurrentPosition() + 100);
-//                popupWindow.dismiss();
-//            }
-//        });
-//        cancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                popupWindow.dismiss();
-//            }
-//        });
-//
-//        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-//
-//            @Override
-//            public void onDismiss() {
-//                WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-//                lp.alpha = 1f;
-//                getActivity().getWindow().setAttributes(lp);
-//            }
-//        });
-//
-//
-//    }
+    /**
+     * android 打开本地文件
+     *
+     * @param path    本地文件路径
+     * @param context 上下文
+     */
+    public void openFile(String path, Context context) {
+        try {
+            File file = new File(path);
+            Uri uri = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//24 android7
+                uri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider", file);
+            } else {
+                uri = Uri.fromFile(file);
+            }
+            context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Intent intent2 = new Intent("android.intent.action.VIEW");
+            intent2.addCategory("android.intent.category.DEFAULT");
+            intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent2.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Log.d("sss", "opneFile: uri " + uri.toString());
+            String type = AndroidFileUtil.getMIMEtype(path);
+            intent2.setDataAndType(uri, type);
+            context.startActivity(intent2);
+        } catch (Exception e) {
+            Log.d("sss", "loadAccessorySuccess: error " + e.toString());
+        }
+    }
 
     private void showTypeDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -304,12 +271,23 @@ public class Fragment_my extends Fragment implements View.OnClickListener {
                         Bundle extras = data.getExtras();
                         head = extras.getParcelable("data");
                         if (head != null) {
-                            /**
-                             * 上传服务器代码
-                             */
                             setPicToView(head);// 保存在SD卡中
                             imageView.setImageBitmap(head);// 用ImageView显示出来
                         }
+                    }
+                    break;
+                case 4:
+                    Log.d("openfile", "选择的文件Uri = " + data.toString());
+                    //通过Uri获取真实路径
+                    final String excelPath = getRealFilePath(getActivity(), data.getData());
+                    Log.d("openfile", "excelPath = " + excelPath);//    /storage/emulated/0/test.xls
+                    if (excelPath.contains(".xls") || excelPath.contains(".xlsx")) {
+                        Toast.makeText(getActivity(),("正在加载Excel中..."), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),(excelPath + "上传成功"), Toast.LENGTH_SHORT).show();
+                        //载入excel
+//                        readExcel(excelPath);
+                    } else {
+                        Toast.makeText(getActivity(),("此文件不是excel格式"), Toast.LENGTH_SHORT).show();
                     }
                     break;
                 default:
@@ -318,6 +296,95 @@ public class Fragment_my extends Fragment implements View.OnClickListener {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    //读取Excel表 TODO: 这里的POIFSFileSystem这种始终找不到，可能是 导入的包有问题，换了几个没搞定，先放一下
+//    private void readExcel(String excelPath) {
+//        try {
+//            InputStream input = new FileInputStream(new File(excelPath));
+//            POIFSFileSystem fs = new POIFSFileSystem(input);
+//            HSSFWorkbook wb = new HSSFWorkbook(fs);
+//            HSSFSheet sheet = wb.getSheetAt(0);
+//            // Iterate over each row in the sheet
+//            Iterator<Keyboard.Row> rows = sheet.rowIterator();
+//            while (rows.hasNext()) {
+//                HSSFRow row = (HSSFRow) rows.next();
+//                System.out.println("Row #" + row.getRowNum());
+//                //每一行 = 新建一个学生
+//                DbStudent stu = new DbStudent();
+//                // Iterate over each cell in the row and print out the cell"s
+//                // content
+//                Iterator<Cell> cells = row.cellIterator();
+//                while (cells.hasNext()) {
+//                    HSSFCell cell = (HSSFCell) cells.next();
+//                    switch (cell.getCellType()) {
+////                        case HSSFCell.CELL_TYPE_NUMERIC:
+////                            System.out.println("number= " + (int) (cell.getNumericCellValue()));
+////                            //自定操作,我这里写入学号
+////                            stu.setSno((int) (cell.getNumericCellValue()) + "");
+////                            break;
+//                        case HSSFCell.CELL_TYPE_STRING:
+//                            System.out.println("string= " + cell.getStringCellValue());
+//                            //自定操作,我这里写入姓名
+//                            stu.setName(cell.getStringCellValue());
+//                            break;
+//                        case HSSFCell.CELL_TYPE_BOOLEAN:
+//                            System.out.println("boolean= " + cell.getBooleanCellValue());
+//                            break;
+//                        case HSSFCell.CELL_TYPE_FORMULA:
+//                            System.out.println("formula= " + cell.getCellFormula());
+//                            break;
+//                        default:
+//                            System.out.println("unsuported sell type");
+//                            break;
+//                    }
+//                }
+//                stu.save();
+//            }
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+//        //刷新列表
+//        getAllStudent();
+//    }
+
+    //查询所有学生
+    private void getAllStudent() {
+        studentList = LitePal.findAll(DbStudent.class);
+    }
+
+    /**
+     * 根据Uri获取真实图片路径
+     * <p/>
+     * 一个android文件的Uri地址一般如下：
+     * content://media/external/images/media/62026
+     *
+     * @param context
+     * @param uri
+     * @return
+     */
+    public static String getRealFilePath(final Context context, final Uri uri) {
+        if (null == uri) return null;
+        final String scheme = uri.getScheme();
+        String data = null;
+        if (scheme == null)
+            data = uri.getPath();
+        else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
+            data = uri.getPath();
+        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
+            Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);
+            if (null != cursor) {
+                if (cursor.moveToFirst()) {
+                    int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                    if (index > -1) {
+                        data = cursor.getString(index);
+                    }
+                }
+                cursor.close();
+            }
+        }
+        return data;
     }
 
     public void cropPhoto(Uri uri) {
@@ -358,78 +425,4 @@ public class Fragment_my extends Fragment implements View.OnClickListener {
             }
         }
     }
-
-//    private void select_birth() {
-//        View contentView = LayoutInflater.from(context).inflate(R.layout.wheelview_birthday, null);
-//        TextView ok = (TextView) contentView.findViewById(R.id.ok_birth);
-//        TextView cancel = (TextView) contentView.findViewById(R.id.cancel_birth);
-//        final PopupWindow popupWindow_birth = new PopupWindow(contentView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-//        popupWindow_birth.setContentView(contentView);
-//        final WheelView wheelView_year = (WheelView) contentView.findViewById(R.id.wheelview1);
-//        wheelView_year.setWheelAdapter(new ArrayWheelAdapter(context)); // 文本数据源
-//        wheelView_year.setSkin(WheelView.Skin.Holo); // common皮肤
-//        wheelView_year.setExtraText("年", Color.parseColor("#0288ce"), 50, 100);
-//        WheelView.WheelViewStyle style = new WheelView.WheelViewStyle();
-//        style.textColor = Color.GRAY;
-//        style.selectedTextColor = Color.parseColor("#0288ce");
-//        wheelView_year.setStyle(style);
-//        wheelView_year.setWheelData(year);  // 数据集合
-//        if (sp.getYear(sp.getUsername()) == 0)
-//            wheelView_year.setSelection(1995 - 1916);
-//        else
-//            wheelView_year.setSelection(sp.getYear(sp.getUsername()) - 1916);
-//        wheelView_year.setWheelSize(5);
-//        final WheelView wheelView_month = (WheelView) contentView.findViewById(R.id.wheelview2);
-//        wheelView_month.setWheelAdapter(new ArrayWheelAdapter(context)); // 文本数据源
-//        wheelView_month.setSkin(WheelView.Skin.Holo); // common皮肤
-//        wheelView_month.setExtraText("月", Color.parseColor("#0288ce"), 50, 100);
-//        wheelView_month.setStyle(style);
-//        wheelView_month.setWheelData(month);  // 数据集合
-//        wheelView_month.setSelection(sp.getMonth(sp.getUsername()) - 1);
-//        wheelView_month.setWheelSize(5);
-//        popupWindow_birth.setFocusable(true);
-//        ColorDrawable dw = new ColorDrawable(0xb0000000);
-//        popupWindow_birth.setBackgroundDrawable(dw);
-//        popupWindow_birth.setAnimationStyle(R.style.mypopwindow_anim_style);
-//        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-//        lp.alpha = 0.7f;
-//        getActivity().getWindow().setAttributes(lp);
-//        popupWindow_birth.showAtLocation(getActivity().findViewById(R.id.main), Gravity.BOTTOM | Gravity
-//                .CENTER_HORIZONTAL, 0, 0);
-//        ok.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                tv_birthday.setText((wheelView_year.getCurrentPosition() + 1916 + "年") + (wheelView_month.getCurrentPosition() + 1 + "月"));
-//                sp.setYear(sp.getUsername(), wheelView_year.getCurrentPosition() + 1916);
-//                sp.setMonth(sp.getUsername(), wheelView_month.getCurrentPosition() + 1);
-//                popupWindow_birth.dismiss();
-//            }
-//        });
-//        cancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                popupWindow_birth.dismiss();
-//            }
-//        });
-//
-//        popupWindow_birth.setOnDismissListener(new PopupWindow.OnDismissListener() {
-//
-//            @Override
-//            public void onDismiss() {
-//                WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-//                lp.alpha = 1f;
-//                getActivity().getWindow().setAttributes(lp);
-//            }
-//        });
-//
-//
-//    }
-//
-//    @Subscribe
-//    public void onEventMainThread(WeightEvent event) {
-//
-//        tv_weight.setText(event.getWeight() + "公斤");
-//    }
-
 }

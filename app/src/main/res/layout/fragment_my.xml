@@ -231,12 +231,14 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="#CCCCCC"
+        android:visibility="gone"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         />
     <RelativeLayout
         android:id="@+id/rl_add"
         android:layout_height="0dp"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:orientation="horizontal"
@@ -261,6 +263,7 @@
         android:layout_height="1dp"
         android:background="#CCCCCC"
         android:layout_marginLeft="20dp"
+        android:visibility="gone"
         android:layout_marginRight="20dp"
         />
     <RelativeLayout
@@ -278,6 +281,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="查询学生信息"
+            android:visibility="gone"
             android:layout_marginLeft="20dp"
             android:layout_alignParentLeft="true"
             android:textSize="15dp"

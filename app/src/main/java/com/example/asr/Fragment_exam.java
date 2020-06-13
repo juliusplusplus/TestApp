@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import android.app.Activity ;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.text.format.Time;
 import android.util.Log ;
 import android.view.LayoutInflater;
@@ -50,6 +51,11 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import org.json.JSONException ;
 import org.json.JSONObject ;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap ;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -214,7 +220,8 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         Record record = decode(result.toString());
         if (record != null) exam.addRecords(record);
         utils.setObject(exam.getName(), exam);
-        showTip(mIatResults.toString());
+//        showTip(mIatResults.toString());
+        createFile(record.getName());
     }
 
     private Record decode(String str){
@@ -352,7 +359,7 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         mDialog.setParameter(SpeechConstant. ACCENT, "mandarin" );
         mDialog.setParameter(SpeechConstant.ASR_PTT, "0");
         mDialog.setParameter(SpeechConstant.AUDIO_FORMAT,"wav");
-
+        mDialog.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/tmp.wav");
         // 若要将UI控件用于语义理解，必须添加以下参数设置，设置之后 onResult回调返回将是语义理解
         // 结果
         // mDialog.setParameter("asr_sch", "1");
@@ -416,7 +423,6 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
 //            Log.d (TAG, "没有解析的 " + results.getResultString());
 
             SpeechText = JsonParser.parseIatResult(result) ;//解析过后的
-            mDialog.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/" + SpeechText + ".wav");
             System. out.println(" 解析后的 :" + SpeechText);
 //            Log.d (TAG, "解析后的 " + text);
 
@@ -469,6 +475,40 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         }
     }
 
+    private void createFile(String newName) {
+//        InputStream file = new FileInputStream(new File("/sdcard/msc/tmp.wav"));
+//        File sdCard= Environment.getExternalStorageDirectory();
+        String fileName = "tmp.wav";
+        File file = new File("/sdcard/msc/", fileName);
+
+        if (!file.exists()) {
+            showTip("原始语音丢失，请重试");
+        } else {
+            String oldPath = file.getAbsolutePath();
+            if (!TextUtils.isEmpty(oldPath)) {
+                String newPath = file.getAbsolutePath() + "other.txt";
+                newPath = oldPath.replace(fileName, newName + ".wav");
+                renameFile(oldPath, newPath);
+            }
+
+        }
+    }
+
+    /**
+     * oldPath 和 newPath必须是新旧文件的绝对路径
+     */
+    private void renameFile(String oldPath, String newPath) {
+        if (TextUtils.isEmpty(oldPath)) {
+            return;
+        }
+
+        if (TextUtils.isEmpty(newPath)) {
+            return;
+        }
+
+        File file = new File(oldPath);
+        file.renameTo(new File(newPath));
+    }
     /**
      * 语音识别
      */

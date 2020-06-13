@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.Map;
@@ -18,10 +19,10 @@ import com.example.testapp.R;
 public class InfoAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<?> listItems;
+    private List<Record> listItems;
     private LayoutInflater inflater;
 
-    public InfoAdapter(List<?>listItems, Context  mContext) {
+    public InfoAdapter(List<Record> listItems, Context mContext) {
         this.mContext = mContext;
         this.inflater = LayoutInflater.from(mContext);
         this.listItems = listItems;
@@ -80,27 +81,27 @@ public class InfoAdapter extends BaseAdapter {
 //        }
 //
 //        /* 步骤8：监听器绑定 */
-//        infoViewHolder.btnPin.setOnClickListener(new ViewOcl(position));
+        infoViewHolder.txtInfo.setOnClickListener(new ViewOcl(position));
 //
         return convertView;
     }
 
     /* 自定义一个单击监听器 */
-//    private class ViewOcl implements View.OnClickListener{
-//        private int position;
-//
-//        public ViewOcl(int position) {
-//            this.position = position;
-//        }
-//
-//        @Override
-//        public void onClick(View v) {
-//            switch (v.getId()){
-//                case R.id.btnPin:
-//                    Toast.makeText(mContext, "你要回复 ["+ listItems.get(position).get("txtUserName") +"]", Toast.LENGTH_SHORT).show();
-//                    break;
-//            }
-//        }
-//    }
+    private class ViewOcl implements View.OnClickListener {
+        private int position;
+
+        public ViewOcl(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.txtInfo:
+                    Toast.makeText(mContext, "你要回复 [" + listItems.get(position).getName() + "]", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    }
 
 }

@@ -180,16 +180,8 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
     private void initView(View v) {
         et_input = (EditText) v.findViewById(R.id.et_input );
         btn_startspeech = (Button) v.findViewById(R.id.btn_startspeech );
-        btn_startspeektext = (Button) v.findViewById(R.id.btn_startspeektext );
-        btn_startspeech .setOnClickListener(this) ;
-        btn_startspeektext .setOnClickListener(this) ;
 
-        Button add_data = (Button) v.findViewById(R.id.add_data);
-        add_data.setOnClickListener(this);
-        Button select_data = (Button) v.findViewById(R.id.select_data);
-        select_data.setOnClickListener(this);
-        Button update_dic = (Button) v.findViewById(R.id.update_dic);
-        update_dic.setOnClickListener(this);
+        btn_startspeech .setOnClickListener(this) ;
 
     }
 
@@ -269,39 +261,6 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btn_startspeech: //语音识别（把声音转文字）
                 startSpeechDialog();
-                break;
-            case R.id. btn_startspeektext:// 语音合成（把文字转声音）
-                dbHelper.getWritableDatabase();
-//                Intent i = new Intent(MainActivity.this , Display.class);
-//                startActivity(i);
-                break;
-            case R.id.add_data:
-                addData();
-//                SQLiteDatabase db = dbHelper.getWritableDatabase();
-//                ContentValues values1 = new ContentValues();
-//                values1.put("name", "呵呵~" + i);
-//                i++;
-//                //参数依次是：表名，强行插入null值得数据列的列名，一行记录的数据
-//                db.insert("student", null, values1);
-//                Toast.makeText(mContext, "插入完毕~", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.select_data:
-                getCount();
-                break;
-            case R.id.update_dic:
-                /*
-                String contents = FucUtil.readFile(mContext, "userwords","utf-8");
-//                showContacts.setText(contents);
-
-                // 指定引擎类型
-                mIat.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
-                mIat.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");
-                ret = mIat.updateLexicon("userword", contents, mLexiconListener);
-                if (ret != ErrorCode.SUCCESS)
-                    showTip("上传热词失败,错误码：" + ret+",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
-                 */
-                updateData();
-//                String test = db.execSQL("select * from student");
                 break;
         }
 
@@ -453,12 +412,11 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
             String minute = t.minute+"";
             String second = t.second+"";
             String a=year+month+day+hour+minute+second;
-            mDialog.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory()+"/msc/"+a+".wav");
-            showTip(t.toString());
             System. out.println(" 没有解析的 :" + result);
 //            Log.d (TAG, "没有解析的 " + results.getResultString());
 
             SpeechText = JsonParser.parseIatResult(result) ;//解析过后的
+            mDialog.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/" + SpeechText + ".wav");
             System. out.println(" 解析后的 :" + SpeechText);
 //            Log.d (TAG, "解析后的 " + text);
 
@@ -486,8 +444,7 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
             et_input.setText(resultBuffer.toString());// 设置输入框的文本
             et_input .setSelection(et_input.length()) ;//把光标定位末尾
 
-            if(isLast == true){
-//                showTip(mIatResults.toString());
+            if (isLast) {
                 transData();
             }
 

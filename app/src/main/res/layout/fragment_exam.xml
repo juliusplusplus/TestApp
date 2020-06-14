@@ -42,29 +42,29 @@
             android:layout_height="wrap_content"
             android:text="点击按钮语音输入 " />
 
-        <Button
-            android:id="@+id/btn_startspeektext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="语音合成（把文字转声音） " />
+        <!--        <Button-->
+        <!--            android:id="@+id/btn_startspeektext"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="语音合成（把文字转声音） " />-->
 
-        <Button
-            android:id="@+id/add_data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="上传数据" />
+        <!--        <Button-->
+        <!--            android:id="@+id/add_data"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="上传数据" />-->
 
-        <Button
-            android:id="@+id/select_data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="查询数据" />
+        <!--        <Button-->
+        <!--            android:id="@+id/select_data"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="查询数据" />-->
 
-        <Button
-            android:id="@+id/update_dic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="更新词表" />
+        <!--        <Button-->
+        <!--            android:id="@+id/update_dic"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="更新词表" />-->
     </LinearLayout>
 
 

@@ -1,6 +1,10 @@
 package com.example.asr;
 
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaExtractor;
+import android.media.MediaPlayer;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -86,6 +92,34 @@ public class InfoAdapter extends BaseAdapter {
         return convertView;
     }
 
+    private void showVoice(String name) throws IOException {
+        String path = "/sdcard/msc/" + name + ".wav";
+        File pp = new File("/sdcard/msc/" + name + ".wav");
+        if (pp.exists()) Toast.makeText(mContext, "exist", Toast.LENGTH_SHORT).show();
+        MediaPlayer mMediaPlayer = new MediaPlayer();
+        mMediaPlayer.setDataSource(path);
+//        mMediaPlayer.start();
+
+        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
+        // 通过异步的方式装载媒体资源
+        mMediaPlayer.prepareAsync();
+        final MediaPlayer finalMMediaPlayer = mMediaPlayer;
+        mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                // 装载完毕回调
+                finalMMediaPlayer.start();
+            }
+        });
+
+        if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+            mMediaPlayer.stop();
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
+    }
+
     /* 自定义一个单击监听器 */
     private class ViewOcl implements View.OnClickListener {
         private int position;
@@ -98,7 +132,13 @@ public class InfoAdapter extends BaseAdapter {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.txtInfo:
-                    Toast.makeText(mContext, "你要回复 [" + listItems.get(position).getName() + "]", Toast.LENGTH_SHORT).show();
+                    String stuName = listItems.get(position).getName();
+                    Toast.makeText(mContext, "你要回复 [" + listItems.get(position).getName() + "播放]", Toast.LENGTH_SHORT).show();
+                    try {
+                        showVoice(stuName);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     break;
             }
         }

@@ -220,6 +220,7 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
             //mLog.d(TAG,"record "+ test.searchRecord("姚瑶"));
         }
         Record record = decode(result.toString());
+        //TODO:这里其实应该是去数据库里查看有哪些人名，但是同样由于那个Excel表格导入问题先手动输入这些人名
         List<String> stuNames = new ArrayList<>();
         stuNames.add("姚瑶");
         stuNames.add("李峰");

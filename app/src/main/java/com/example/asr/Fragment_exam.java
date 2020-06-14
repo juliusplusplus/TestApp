@@ -56,10 +56,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap ;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap ;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -218,10 +220,23 @@ public class Fragment_exam extends Fragment implements View.OnClickListener {
             //mLog.d(TAG,"record "+ test.searchRecord("姚瑶"));
         }
         Record record = decode(result.toString());
-        if (record != null) exam.addRecords(record);
-        utils.setObject(exam.getName(), exam);
+        List<String> stuNames = new ArrayList<>();
+        stuNames.add("姚瑶");
+        stuNames.add("李峰");
+        stuNames.add("李志");
+        stuNames.add("赵峰");
+        stuNames.add("王艳");
+        stuNames.add("王园园");
+        stuNames.add("张叁");
+        stuNames.add("吕布");
+        stuNames.add("董卓");
+        stuNames.add("貂蝉");
+        if (record != null && stuNames.contains(record.getName())) {
+            exam.addRecords(record);
+            utils.setObject(exam.getName(), exam);
 //        showTip(mIatResults.toString());
-        createFile(record.getName());
+            createFile(record.getName());
+        }
     }
 
     private Record decode(String str){

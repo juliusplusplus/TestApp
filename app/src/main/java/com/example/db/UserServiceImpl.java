@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public int login(String userName, String password, Context context) {
         SharePreferenceUtil login = new SharePreferenceUtil(context, "personinfo");
-        if (userName.equals("201226680112")) {
-            login.setUsername("201226680112");
+        if (userName.equals("201518530505") && password.equals("123")) {
+            login.setUsername("201518530505");
 //            login.setYear(login.getUsername(),1993);
 //            login.setMonth(login.getUsername(), 6);
 //            login.setsex("男");

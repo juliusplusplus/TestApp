@@ -35,6 +35,8 @@ dependencies {
     implementation 'com.qmuiteam:qmui:2.0.0-alpha08'
     implementation 'de.codecrafters.tableview:tableview:2.8.0'
     implementation 'org.litepal.guolindev:core:3.1.1'
+
+    compile files('libs/okhttp-3.3.1.jar')
 //    implementation files('libs/poi-3.15/ooxml-lib/curvesapi-1.04.jar')
 //    implementation files('libs/poi-3.15/ooxml-lib/xmlbeans-2.6.0.jar')
 //    implementation files('libs/poi-3.15/poi-examples-3.15.jar')

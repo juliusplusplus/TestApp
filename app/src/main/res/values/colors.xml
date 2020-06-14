@@ -6,6 +6,8 @@
     <color name="text_blue">#3700B3</color>
     <color name="text_gray">#808080</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="light_grey_e6e6e6">#e6e6e6</color>
+    <color name="white">#ffffff</color>
 
     <color name="bg_black">#000000</color>
     <color name="bg_white">#FFFFFF</color>

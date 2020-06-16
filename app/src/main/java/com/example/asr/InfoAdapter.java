@@ -95,7 +95,7 @@ public class InfoAdapter extends BaseAdapter {
     private void showVoice(String name) throws IOException {
         String path = "/sdcard/msc/" + name + ".wav";
         File pp = new File("/sdcard/msc/" + name + ".wav");
-        if (pp.exists()) Toast.makeText(mContext, "exist", Toast.LENGTH_SHORT).show();
+//        if (pp.exists()) Toast.makeText(mContext, "exist", Toast.LENGTH_SHORT).show();
         MediaPlayer mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setDataSource(path);
 //        mMediaPlayer.start();
@@ -133,7 +133,7 @@ public class InfoAdapter extends BaseAdapter {
             switch (v.getId()) {
                 case R.id.txtInfo:
                     String stuName = listItems.get(position).getName();
-                    Toast.makeText(mContext, "你要回复 [" + listItems.get(position).getName() + "播放]", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(mContext, "你要回复 [" + listItems.get(position).getName() + "播放]", Toast.LENGTH_SHORT).show();
                     try {
                         showVoice(stuName);
                     } catch (IOException e) {

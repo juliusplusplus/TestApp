@@ -6,7 +6,7 @@ import android.content.Context;
 public interface UserService {
 
 
-    public int login(String userName, String password, Context context);
+    int login(String userName, String password, Context context);
 
     public void logout();
 

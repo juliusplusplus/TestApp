@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,11 @@ import com.example.testapp.R;
 import com.example.util.SaveObjectUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -130,7 +135,23 @@ public class Fragment_display extends Fragment {
 
     private List<Record> getListItems(String data) {
         Exam test = utils.getObject(data, Exam.class);
-        return test.getRecords();
+        List<Record> listTemp = new ArrayList<>();
+        List<String> tmp = new ArrayList<>();
+        List<Record> a = test.getRecords();
+        Collections.reverse(a);
+//        String b = null;
+//        while (a.iterator().hasNext()) {
+//            b =String.valueOf(a.iterator().next().getName());
+//            tmp.add(b);
+//        }
+//        return a;
+        for (int i = 0; i < a.size(); i++) {
+            if (!tmp.contains(a.get(i).getName())) {
+                listTemp.add(a.get(i));
+                tmp.add(a.get(i).getName());
+            }
+        }
+        return listTemp;
     }
 //
 //    private static class CarProducerComparator implements Comparator<Car> {
